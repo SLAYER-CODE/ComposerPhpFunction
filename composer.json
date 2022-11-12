@@ -1,0 +1,16 @@
+{
+  "name": "javleds/fabulosa-libreria",
+  "description": "Composer Proyect",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Edwin Paz Huarahuara",
+      "email": "1edw333@gmail.com"
+    }
+  ],
+  "version": "1.0",
+  "license": "MIT",
+  "require": {
+    "smalot/pdfparser": "^2.2"
+  }
+}
