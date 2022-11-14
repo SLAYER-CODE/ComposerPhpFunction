@@ -29,7 +29,7 @@
 
     $start_time=microtime(true);    
     $parseador = new \Smalot\PdfParser\Parser();
-    $PathDirAbsolute="D:\\";
+    $PathDirAbsolute="/home/slayer/Practicas/ArchivosPrueva/";
     $VarItem = scandir($PathDirAbsolute);
     $VarArrayFilters=array();
     foreach ($VarItem as $item){
