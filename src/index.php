@@ -39,8 +39,7 @@
             echo "<h5>$item</h5>";
         }
     }
-
-    foreach($VarArrayFilters as $documento){
+ 
         try{
         $doc = $parseador->parseFile($PathDirAbsolute.$documento);
         }catch (Exception $e){
