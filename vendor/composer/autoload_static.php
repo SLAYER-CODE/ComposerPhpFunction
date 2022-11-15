@@ -17,21 +17,37 @@ class ComposerStaticInit3701946aaa576201d0d6684a35ac0b0a
         array (
             'thiagoalessio\\TesseractOCR\\' => 27,
         ),
+        's' => 
+        array (
+            'setasign\\Fpdi\\' => 14,
+        ),
+        'm' => 
+        array (
+            'mikehaertl\\tmp\\' => 15,
+            'mikehaertl\\shellcommand\\' => 24,
+            'mikehaertl\\pdftk\\' => 17,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Contracts\\Translation\\' => 30,
             'Symfony\\Component\\Translation\\' => 30,
+            'Symfony\\Component\\Process\\' => 26,
         ),
         'P' => 
         array (
             'Psr\\SimpleCache\\' => 16,
+            'Psr\\Log\\' => 8,
             'Psr\\Container\\' => 14,
         ),
         'N' => 
         array (
             'NcJoes\\PopplerPhp\\' => 18,
+        ),
+        'M' => 
+        array (
+            'Monolog\\' => 8,
         ),
         'I' => 
         array (
@@ -44,12 +60,33 @@ class ComposerStaticInit3701946aaa576201d0d6684a35ac0b0a
             'Doctrine\\Inflector\\' => 19,
             'Doctrine\\Common\\Inflector\\' => 26,
         ),
+        'C' => 
+        array (
+            'Com\\Tecnick\\Pdf\\Parser\\' => 23,
+            'Com\\Tecnick\\Pdf\\Filter\\' => 23,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'thiagoalessio\\TesseractOCR\\' => 
         array (
             0 => __DIR__ . '/..' . '/thiagoalessio/tesseract_ocr/src',
+        ),
+        'setasign\\Fpdi\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/setasign/fpdi/src',
+        ),
+        'mikehaertl\\tmp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mikehaertl/php-tmpfile/src',
+        ),
+        'mikehaertl\\shellcommand\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mikehaertl/php-shellcommand/src',
+        ),
+        'mikehaertl\\pdftk\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mikehaertl/php-pdftk/src',
         ),
         'Symfony\\Polyfill\\Php80\\' => 
         array (
@@ -67,9 +104,17 @@ class ComposerStaticInit3701946aaa576201d0d6684a35ac0b0a
         array (
             0 => __DIR__ . '/..' . '/symfony/translation',
         ),
+        'Symfony\\Component\\Process\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/process',
+        ),
         'Psr\\SimpleCache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/simple-cache/src',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
         'Psr\\Container\\' => 
         array (
@@ -78,6 +123,10 @@ class ComposerStaticInit3701946aaa576201d0d6684a35ac0b0a
         'NcJoes\\PopplerPhp\\' => 
         array (
             0 => __DIR__ . '/..' . '/ncjoes/poppler-php/src/PopplerPhp',
+        ),
+        'Monolog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
         'Illuminate\\Support\\' => 
         array (
@@ -99,6 +148,14 @@ class ComposerStaticInit3701946aaa576201d0d6684a35ac0b0a
         array (
             0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
         ),
+        'Com\\Tecnick\\Pdf\\Parser\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/tecnickcom/tc-lib-pdf-parser/src',
+        ),
+        'Com\\Tecnick\\Pdf\\Filter\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/tecnickcom/tc-lib-pdf-filter/src',
+        ),
     );
 
     public static $fallbackDirsPsr4 = array (
@@ -106,6 +163,13 @@ class ComposerStaticInit3701946aaa576201d0d6684a35ac0b0a
     );
 
     public static $prefixesPsr0 = array (
+        'X' => 
+        array (
+            'XPDF' => 
+            array (
+                0 => __DIR__ . '/..' . '/php-xpdf/php-xpdf/src',
+            ),
+        ),
         'U' => 
         array (
             'UpdateHelper\\' => 
@@ -120,11 +184,26 @@ class ComposerStaticInit3701946aaa576201d0d6684a35ac0b0a
                 0 => __DIR__ . '/..' . '/smalot/pdfparser/src',
             ),
         ),
+        'E' => 
+        array (
+            'Evenement' => 
+            array (
+                0 => __DIR__ . '/..' . '/evenement/evenement/src',
+            ),
+        ),
+        'A' => 
+        array (
+            'Alchemy' => 
+            array (
+                0 => __DIR__ . '/..' . '/alchemy/binary-driver/src',
+            ),
+        ),
     );
 
     public static $classMap = array (
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'FPDF' => __DIR__ . '/..' . '/setasign/fpdf/fpdf.php',
         'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
