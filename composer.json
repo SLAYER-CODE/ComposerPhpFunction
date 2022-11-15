@@ -12,17 +12,18 @@
   "license": "MIT",
   "require": {
     "smalot/pdfparser": "^2.2",
-<<<<<<< HEAD
-    "mikehaertl/php-pdftk": "^0.12.1",
-    "php-pdfbox/php-pdfbox": "^1.0"
-=======
+    "php-pdfbox/php-pdfbox": "^1.0",
     "thiagoalessio/tesseract_ocr": "^2.12",
-    "ncjoes/poppler-php": "^1.1"
+    "ncjoes/poppler-php": "^1.1",
+    "setasign/fpdf": "^1.8",
+    "setasign/fpdi": "  2.0",
+    "tecnickcom/tc-lib-pdf-parser": "2.3",
+    "mikehaertl/php-pdftk": "^0.12.1",
+    "php-xpdf/php-xpdf": "^0.2.3"
   },
   "config": {
     "allow-plugins": {
       "kylekatarnls/update-helper": true
     }
->>>>>>> 96be3f54cb8b521087f3c73426af75a42effe40f
   }
 }

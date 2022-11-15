@@ -29,6 +29,7 @@ class PhpExecutableFinder
     /**
      * Finds The PHP executable.
      *
+<<<<<<< HEAD
      * @return string|false
      */
     public function find(bool $includeArgs = true)
@@ -57,11 +58,33 @@ class PhpExecutableFinder
 
         // PHP_BINARY return the current sapi executable
         if (\PHP_BINARY && \in_array(\PHP_SAPI, ['cgi-fcgi', 'cli', 'cli-server', 'phpdbg'], true)) {
+=======
+     * @param bool $includeArgs Whether or not include command arguments
+     *
+     * @return string|false The PHP executable path or false if it cannot be found
+     */
+    public function find($includeArgs = true)
+    {
+        $args = $this->findArguments();
+        $args = $includeArgs && $args ? ' '.implode(' ', $args) : '';
+
+        // HHVM support
+        if (\defined('HHVM_VERSION')) {
+            return (getenv('PHP_BINARY') ?: \PHP_BINARY).$args;
+        }
+
+        // PHP_BINARY return the current sapi executable
+        if (\PHP_BINARY && \in_array(\PHP_SAPI, ['cli', 'cli-server', 'phpdbg'], true)) {
+>>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
             return \PHP_BINARY.$args;
         }
 
         if ($php = getenv('PHP_PATH')) {
+<<<<<<< HEAD
             if (!@is_executable($php) || @is_dir($php)) {
+=======
+            if (!@is_executable($php)) {
+>>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
                 return false;
             }
 
@@ -69,12 +92,20 @@ class PhpExecutableFinder
         }
 
         if ($php = getenv('PHP_PEAR_PHP_BIN')) {
+<<<<<<< HEAD
             if (@is_executable($php) && !@is_dir($php)) {
+=======
+            if (@is_executable($php)) {
+>>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
                 return $php;
             }
         }
 
+<<<<<<< HEAD
         if (@is_executable($php = \PHP_BINDIR.('\\' === \DIRECTORY_SEPARATOR ? '\\php.exe' : '/php')) && !@is_dir($php)) {
+=======
+        if (@is_executable($php = \PHP_BINDIR.('\\' === \DIRECTORY_SEPARATOR ? '\\php.exe' : '/php'))) {
+>>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
             return $php;
         }
 
@@ -89,12 +120,23 @@ class PhpExecutableFinder
     /**
      * Finds the PHP executable arguments.
      *
+<<<<<<< HEAD
      * @return array
+=======
+     * @return array The PHP executable arguments
+>>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
      */
     public function findArguments()
     {
         $arguments = [];
+<<<<<<< HEAD
         if ('phpdbg' === \PHP_SAPI) {
+=======
+
+        if (\defined('HHVM_VERSION')) {
+            $arguments[] = '--php';
+        } elseif ('phpdbg' === \PHP_SAPI) {
+>>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
             $arguments[] = '-qrr';
         }
 

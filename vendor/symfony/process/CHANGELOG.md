@@ -1,6 +1,7 @@
 CHANGELOG
 =========
 
+<<<<<<< HEAD
 5.2.0
 -----
 
@@ -60,6 +61,8 @@ CHANGELOG
  * passing a not existing working directory to the constructor of the `Symfony\Component\Process\Process` class is not
    supported anymore
 
+=======
+>>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
 3.4.0
 -----
 

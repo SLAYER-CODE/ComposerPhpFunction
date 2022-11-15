@@ -10,12 +10,30 @@
         'dev' => true,
     ),
     'versions' => array(
+        'alchemy/binary-driver' => array(
+            'pretty_version' => '1.6.0',
+            'version' => '1.6.0.0',
+            'reference' => '80c6633890afb71d2417ae851d0ad167d8b00b95',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../alchemy/binary-driver',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'doctrine/inflector' => array(
             'pretty_version' => '1.4.4',
             'version' => '1.4.4.0',
             'reference' => '4bd5c1cdfcd00e9e2d8c484f79150f67e5d355d9',
             'type' => 'library',
             'install_path' => __DIR__ . '/../doctrine/inflector',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'evenement/evenement' => array(
+            'pretty_version' => 'v2.1.0',
+            'version' => '2.1.0.0',
+            'reference' => '6ba9a777870ab49f417e703229d53931ed40fd7a',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../evenement/evenement',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -108,6 +126,42 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'mikehaertl/php-pdftk' => array(
+            'pretty_version' => '0.12.1',
+            'version' => '0.12.1.0',
+            'reference' => '8db18ff52ad264a0b1ea4b546a6e58aac61c8956',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../mikehaertl/php-pdftk',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'mikehaertl/php-shellcommand' => array(
+            'pretty_version' => '1.6.4',
+            'version' => '1.6.4.0',
+            'reference' => '3488d7803df1e8f1a343d3d0ca452d527ad8d5e5',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../mikehaertl/php-shellcommand',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'mikehaertl/php-tmpfile' => array(
+            'pretty_version' => '1.2.1',
+            'version' => '1.2.1.0',
+            'reference' => '70a5b70b17bc0d9666388e6a551ecc93d0b40a10',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../mikehaertl/php-tmpfile',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'monolog/monolog' => array(
+            'pretty_version' => '1.27.1',
+            'version' => '1.27.1.0',
+            'reference' => '904713c5929655dc9b97288b69cfeedad610c9a1',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../monolog/monolog',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'ncjoes/poppler-php' => array(
             'pretty_version' => 'v1.1.0',
             'version' => '1.1.0.0',
@@ -126,6 +180,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'php-xpdf/php-xpdf' => array(
+            'pretty_version' => '0.2.3',
+            'version' => '0.2.3.0',
+            'reference' => 'd5e73960108704e0063b81ae777d01b8fb91ae08',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../php-xpdf/php-xpdf',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'psr/container' => array(
             'pretty_version' => '1.1.2',
             'version' => '1.1.2.0',
@@ -135,6 +198,21 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'psr/log' => array(
+            'pretty_version' => '1.1.4',
+            'version' => '1.1.4.0',
+            'reference' => 'd49695b909c3b7628b6289db5479a1c204601f11',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../psr/log',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'psr/log-implementation' => array(
+            'dev_requirement' => false,
+            'provided' => array(
+                0 => '1.0.0',
+            ),
+        ),
         'psr/simple-cache' => array(
             'pretty_version' => '1.0.1',
             'version' => '1.0.1.0',
@@ -142,6 +220,24 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../psr/simple-cache',
 >>>>>>> 96be3f54cb8b521087f3c73426af75a42effe40f
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'setasign/fpdf' => array(
+            'pretty_version' => '1.8.2',
+            'version' => '1.8.2.0',
+            'reference' => 'd77904018090c17dc9f3ab6e944679a7a47e710a',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../setasign/fpdf',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'setasign/fpdi' => array(
+            'pretty_version' => 'v2.3.6',
+            'version' => '2.3.6.0',
+            'reference' => '6231e315f73e4f62d72b73f3d6d78ff0eed93c31',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../setasign/fpdi',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -173,16 +269,26 @@
             'dev_requirement' => false,
         ),
 <<<<<<< HEAD
+<<<<<<< HEAD
         'symfony/process' => array(
             'pretty_version' => 'v5.4.11',
             'version' => '5.4.11.0',
             'reference' => '6e75fe6874cbc7e4773d049616ab450eff537bf1',
+=======
+        'symfony/process' => array(
+            'pretty_version' => 'v3.4.47',
+            'version' => '3.4.47.0',
+            'reference' => 'b8648cf1d5af12a44a51d07ef9bf980921f15fca',
+>>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/process',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
         'symfony/translation' => array(
             'pretty_version' => 'v4.4.47',
             'version' => '4.4.47.0',
@@ -206,6 +312,24 @@
             'provided' => array(
                 0 => '1.0|2.0',
             ),
+        ),
+        'tecnickcom/tc-lib-pdf-filter' => array(
+            'pretty_version' => '1.4.10',
+            'version' => '1.4.10.0',
+            'reference' => '8906fd1dd7afa3bf8030fc636b02d28d9aae8b02',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../tecnickcom/tc-lib-pdf-filter',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'tecnickcom/tc-lib-pdf-parser' => array(
+            'pretty_version' => '2.3.0',
+            'version' => '2.3.0.0',
+            'reference' => '4d1ecdecd96dc6e770351cfca1aeaed72893bbfc',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../tecnickcom/tc-lib-pdf-parser',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'thiagoalessio/tesseract_ocr' => array(
             'pretty_version' => '2.12.0',

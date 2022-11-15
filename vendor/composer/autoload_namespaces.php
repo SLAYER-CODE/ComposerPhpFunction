@@ -6,6 +6,9 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'XPDF' => array($vendorDir . '/php-xpdf/php-xpdf/src'),
     'UpdateHelper\\' => array($vendorDir . '/kylekatarnls/update-helper/src'),
     'Smalot\\PdfParser\\' => array($vendorDir . '/smalot/pdfparser/src'),
+    'Evenement' => array($vendorDir . '/evenement/evenement/src'),
+    'Alchemy' => array($vendorDir . '/alchemy/binary-driver/src'),
 );

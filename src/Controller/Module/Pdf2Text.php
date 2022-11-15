@@ -130,7 +130,8 @@ class Pdf2text
         // Get the list of all objects.
         preg_match_all("#obj[\n|\r](.*)endobj[\n|\r]#ismU", $infile .
             'endobj' . "\r", $objects);
-        $objects = @$objects[1];
+
+            $objects = @$objects[1];
 
         for ($i = 0; $i < count($objects); $i++) {
             $currentObject = $objects[$i];
@@ -150,7 +151,6 @@ class Pdf2text
                 }
 
                 unset($options['Length']);
-
                 $data = $this->getDecodedStream($stream, $options);
 
                 if (strlen($data)) {

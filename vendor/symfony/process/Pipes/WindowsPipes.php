@@ -35,9 +35,15 @@ class WindowsPipes extends AbstractPipes
     ];
     private $haveReadSupport;
 
+<<<<<<< HEAD
     public function __construct($input, bool $haveReadSupport)
     {
         $this->haveReadSupport = $haveReadSupport;
+=======
+    public function __construct($input, $haveReadSupport)
+    {
+        $this->haveReadSupport = (bool) $haveReadSupport;
+>>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
 
         if ($this->haveReadSupport) {
             // Fix for PHP bug #51800: reading from STDOUT pipe hangs forever on Windows if the output is too big.
@@ -71,7 +77,11 @@ class WindowsPipes extends AbstractPipes
                     }
                     $this->lockHandles[$pipe] = $h;
 
+<<<<<<< HEAD
                     if (!($h = fopen($file, 'w')) || !fclose($h) || !$h = fopen($file, 'r')) {
+=======
+                    if (!fclose(fopen($file, 'w')) || !$h = fopen($file, 'r')) {
+>>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
                         flock($this->lockHandles[$pipe], \LOCK_UN);
                         fclose($this->lockHandles[$pipe]);
                         unset($this->lockHandles[$pipe]);
@@ -88,6 +98,7 @@ class WindowsPipes extends AbstractPipes
         parent::__construct($input);
     }
 
+<<<<<<< HEAD
     public function __sleep(): array
     {
         throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
@@ -98,6 +109,8 @@ class WindowsPipes extends AbstractPipes
         throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
     }
 
+=======
+>>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
     public function __destruct()
     {
         $this->close();
@@ -106,7 +119,11 @@ class WindowsPipes extends AbstractPipes
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function getDescriptors(): array
+=======
+    public function getDescriptors()
+>>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
     {
         if (!$this->haveReadSupport) {
             $nullstream = fopen('NUL', 'c');
@@ -131,7 +148,11 @@ class WindowsPipes extends AbstractPipes
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function getFiles(): array
+=======
+    public function getFiles()
+>>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
     {
         return $this->files;
     }
@@ -139,7 +160,11 @@ class WindowsPipes extends AbstractPipes
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function readAndWrite(bool $blocking, bool $close = false): array
+=======
+    public function readAndWrite($blocking, $close = false)
+>>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
     {
         $this->unblock();
         $w = $this->write();
@@ -174,7 +199,11 @@ class WindowsPipes extends AbstractPipes
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function haveReadSupport(): bool
+=======
+    public function haveReadSupport()
+>>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
     {
         return $this->haveReadSupport;
     }
@@ -182,7 +211,11 @@ class WindowsPipes extends AbstractPipes
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function areOpen(): bool
+=======
+    public function areOpen()
+>>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
     {
         return $this->pipes && $this->fileHandles;
     }
