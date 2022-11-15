@@ -11,6 +11,8 @@
   "version": "1.0",
   "license": "MIT",
   "require": {
-    "smalot/pdfparser": "^2.2"
+    "smalot/pdfparser": "^2.2",
+    "mikehaertl/php-pdftk": "^0.12.1",
+    "php-pdfbox/php-pdfbox": "^1.0"
   }
 }
