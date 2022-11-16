@@ -69,6 +69,7 @@ foreach ($VarItem as $item) {
         array_push($VarArrayFilters, $item);
         echo "<h5>$item</h5>";
     }
+<<<<<<< HEAD
 }
 
 foreach ($VarArrayFilters as $documento) {
@@ -77,6 +78,13 @@ foreach ($VarArrayFilters as $documento) {
             $doc = $parseador->parseFile($PathDirAbsolute . $documento);
         } catch (Exception $e) {
             echo "Ubo un error $documento" . $e;
+=======
+ 
+        try{
+        $doc = $parseador->parseFile($PathDirAbsolute.$documento);
+        }catch (Exception $e){
+            echo "Ubo un error $documento".$e;
+>>>>>>> 2c1a846d1ba079f54994be12db1bc4ae851fe949
         }
         $paginas = $doc->getPages();
         $title = $doc->getDetails();
