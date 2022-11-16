@@ -26,36 +26,15 @@ class UnixPipes extends AbstractPipes
     private $ptyMode;
     private $haveReadSupport;
 
-<<<<<<< HEAD
-    public function __construct(?bool $ttyMode, bool $ptyMode, $input, bool $haveReadSupport)
-    {
-        $this->ttyMode = $ttyMode;
-        $this->ptyMode = $ptyMode;
-        $this->haveReadSupport = $haveReadSupport;
-=======
     public function __construct($ttyMode, $ptyMode, $input, $haveReadSupport)
     {
         $this->ttyMode = (bool) $ttyMode;
         $this->ptyMode = (bool) $ptyMode;
         $this->haveReadSupport = (bool) $haveReadSupport;
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
 
         parent::__construct($input);
     }
 
-<<<<<<< HEAD
-    public function __sleep(): array
-    {
-        throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
-    }
-
-    public function __wakeup()
-    {
-        throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
-    }
-
-=======
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
     public function __destruct()
     {
         $this->close();
@@ -64,11 +43,7 @@ class UnixPipes extends AbstractPipes
     /**
      * {@inheritdoc}
      */
-<<<<<<< HEAD
-    public function getDescriptors(): array
-=======
     public function getDescriptors()
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
     {
         if (!$this->haveReadSupport) {
             $nullstream = fopen('/dev/null', 'c');
@@ -106,11 +81,7 @@ class UnixPipes extends AbstractPipes
     /**
      * {@inheritdoc}
      */
-<<<<<<< HEAD
-    public function getFiles(): array
-=======
     public function getFiles()
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
     {
         return [];
     }
@@ -118,11 +89,7 @@ class UnixPipes extends AbstractPipes
     /**
      * {@inheritdoc}
      */
-<<<<<<< HEAD
-    public function readAndWrite(bool $blocking, bool $close = false): array
-=======
     public function readAndWrite($blocking, $close = false)
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
     {
         $this->unblock();
         $w = $this->write();
@@ -171,11 +138,7 @@ class UnixPipes extends AbstractPipes
     /**
      * {@inheritdoc}
      */
-<<<<<<< HEAD
-    public function haveReadSupport(): bool
-=======
     public function haveReadSupport()
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
     {
         return $this->haveReadSupport;
     }
@@ -183,11 +146,7 @@ class UnixPipes extends AbstractPipes
     /**
      * {@inheritdoc}
      */
-<<<<<<< HEAD
-    public function areOpen(): bool
-=======
     public function areOpen()
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
     {
         return (bool) $this->pipes;
     }

@@ -31,15 +31,10 @@ class ExecutableFinder
 
     /**
      * Adds new possible suffix to check for executable.
-<<<<<<< HEAD
-     */
-    public function addSuffix(string $suffix)
-=======
      *
      * @param string $suffix
      */
     public function addSuffix($suffix)
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
     {
         $this->suffixes[] = $suffix;
     }
@@ -51,21 +46,12 @@ class ExecutableFinder
      * @param string|null $default   The default to return if no executable is found
      * @param array       $extraDirs Additional dirs to check into
      *
-<<<<<<< HEAD
-     * @return string|null
-     */
-    public function find(string $name, string $default = null, array $extraDirs = [])
-    {
-        if (\ini_get('open_basedir')) {
-            $searchPath = array_merge(explode(\PATH_SEPARATOR, \ini_get('open_basedir')), $extraDirs);
-=======
      * @return string|null The executable path or default value
      */
     public function find($name, $default = null, array $extraDirs = [])
     {
         if (ini_get('open_basedir')) {
             $searchPath = array_merge(explode(\PATH_SEPARATOR, ini_get('open_basedir')), $extraDirs);
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
             $dirs = [];
             foreach ($searchPath as $path) {
                 // Silencing against https://bugs.php.net/69240

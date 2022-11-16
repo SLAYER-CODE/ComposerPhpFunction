@@ -47,28 +47,17 @@ abstract class AbstractPipes implements PipesInterface
     public function close()
     {
         foreach ($this->pipes as $pipe) {
-<<<<<<< HEAD
-            if (\is_resource($pipe)) {
-                fclose($pipe);
-            }
-=======
             fclose($pipe);
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
         }
         $this->pipes = [];
     }
 
     /**
      * Returns true if a system call has been interrupted.
-<<<<<<< HEAD
-     */
-    protected function hasSystemCallBeenInterrupted(): bool
-=======
      *
      * @return bool
      */
     protected function hasSystemCallBeenInterrupted()
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
     {
         $lastError = $this->lastError;
         $this->lastError = null;
@@ -99,17 +88,11 @@ abstract class AbstractPipes implements PipesInterface
     /**
      * Writes input to stdin.
      *
-<<<<<<< HEAD
-     * @throws InvalidArgumentException When an input iterator yields a non supported value
-     */
-    protected function write(): ?array
-=======
      * @return array|null
      *
      * @throws InvalidArgumentException When an input iterator yields a non supported value
      */
     protected function write()
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
     {
         if (!isset($this->pipes[0])) {
             return null;
@@ -123,13 +106,8 @@ abstract class AbstractPipes implements PipesInterface
                 stream_set_blocking($input, 0);
             } elseif (!isset($this->inputBuffer[0])) {
                 if (!\is_string($input)) {
-<<<<<<< HEAD
-                    if (!\is_scalar($input)) {
-                        throw new InvalidArgumentException(sprintf('"%s" yielded a value of type "%s", but only scalars and stream resources are supported.', get_debug_type($this->input), get_debug_type($input)));
-=======
                     if (!is_scalar($input)) {
                         throw new InvalidArgumentException(sprintf('"%s" yielded a value of type "%s", but only scalars and stream resources are supported.', \get_class($this->input), \gettype($input)));
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
                     }
                     $input = (string) $input;
                 }
@@ -159,11 +137,7 @@ abstract class AbstractPipes implements PipesInterface
             }
 
             if ($input) {
-<<<<<<< HEAD
-                while (true) {
-=======
                 for (;;) {
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
                     $data = fread($input, self::CHUNK_SIZE);
                     if (!isset($data[0])) {
                         break;
@@ -201,11 +175,7 @@ abstract class AbstractPipes implements PipesInterface
     /**
      * @internal
      */
-<<<<<<< HEAD
-    public function handleError(int $type, string $msg)
-=======
     public function handleError($type, $msg)
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
     {
         $this->lastError = $msg;
     }

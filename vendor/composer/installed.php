@@ -73,50 +73,6 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-<<<<<<< HEAD
-        'mikehaertl/php-pdftk' => array(
-            'pretty_version' => '0.12.1',
-            'version' => '0.12.1.0',
-            'reference' => '8db18ff52ad264a0b1ea4b546a6e58aac61c8956',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../mikehaertl/php-pdftk',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
-        'mikehaertl/php-shellcommand' => array(
-            'pretty_version' => '1.6.4',
-            'version' => '1.6.4.0',
-            'reference' => '3488d7803df1e8f1a343d3d0ca452d527ad8d5e5',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../mikehaertl/php-shellcommand',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
-        'mikehaertl/php-tmpfile' => array(
-            'pretty_version' => '1.2.1',
-            'version' => '1.2.1.0',
-            'reference' => '70a5b70b17bc0d9666388e6a551ecc93d0b40a10',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../mikehaertl/php-tmpfile',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
-        'php-pdfbox/php-pdfbox' => array(
-            'pretty_version' => 'v1.0.1',
-            'version' => '1.0.1.0',
-            'reference' => '742421e0d026e1519d27cef7261db8c349461cd1',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../php-pdfbox/php-pdfbox',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
-        'psr/log' => array(
-            'pretty_version' => '1.1.4',
-            'version' => '1.1.4.0',
-            'reference' => 'd49695b909c3b7628b6289db5479a1c204601f11',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../psr/log',
-=======
         'kylekatarnls/update-helper' => array(
             'pretty_version' => '1.2.1',
             'version' => '1.2.1.0',
@@ -219,7 +175,6 @@
             'reference' => '408d5eafb83c57f6365a3ca330ff23aa4a5fa39b',
             'type' => 'library',
             'install_path' => __DIR__ . '/../psr/simple-cache',
->>>>>>> 96be3f54cb8b521087f3c73426af75a42effe40f
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -268,27 +223,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-<<<<<<< HEAD
-<<<<<<< HEAD
-        'symfony/process' => array(
-            'pretty_version' => 'v5.4.11',
-            'version' => '5.4.11.0',
-            'reference' => '6e75fe6874cbc7e4773d049616ab450eff537bf1',
-=======
         'symfony/process' => array(
             'pretty_version' => 'v3.4.47',
             'version' => '3.4.47.0',
             'reference' => 'b8648cf1d5af12a44a51d07ef9bf980921f15fca',
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/process',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-<<<<<<< HEAD
-=======
-=======
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
         'symfony/translation' => array(
             'pretty_version' => 'v4.4.47',
             'version' => '4.4.47.0',
@@ -346,6 +289,5 @@
                 0 => '<5.5.33',
             ),
         ),
->>>>>>> 96be3f54cb8b521087f3c73426af75a42effe40f
     ),
 );

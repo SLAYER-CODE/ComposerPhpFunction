@@ -1,11 +1,7 @@
 {
     "name": "symfony/process",
     "type": "library",
-<<<<<<< HEAD
-    "description": "Executes commands in sub-processes",
-=======
     "description": "Symfony Process Component",
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
     "keywords": [],
     "homepage": "https://symfony.com",
     "license": "MIT",
@@ -20,12 +16,7 @@
         }
     ],
     "require": {
-<<<<<<< HEAD
-        "php": ">=7.2.5",
-        "symfony/polyfill-php80": "^1.16"
-=======
         "php": "^5.5.9|>=7.0.8"
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
     },
     "autoload": {
         "psr-4": { "Symfony\\Component\\Process\\": "" },

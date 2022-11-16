@@ -20,14 +20,6 @@ namespace Symfony\Component\Process\Pipes;
  */
 interface PipesInterface
 {
-<<<<<<< HEAD
-    public const CHUNK_SIZE = 16384;
-
-    /**
-     * Returns an array of descriptors for the use of proc_open.
-     */
-    public function getDescriptors(): array;
-=======
     const CHUNK_SIZE = 16384;
 
     /**
@@ -36,18 +28,13 @@ interface PipesInterface
      * @return array
      */
     public function getDescriptors();
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
 
     /**
      * Returns an array of filenames indexed by their related stream in case these pipes use temporary files.
      *
      * @return string[]
      */
-<<<<<<< HEAD
-    public function getFiles(): array;
-=======
     public function getFiles();
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
 
     /**
      * Reads data in file handles and pipes.
@@ -57,19 +44,6 @@ interface PipesInterface
      *
      * @return string[] An array of read data indexed by their fd
      */
-<<<<<<< HEAD
-    public function readAndWrite(bool $blocking, bool $close = false): array;
-
-    /**
-     * Returns if the current state has open file handles or pipes.
-     */
-    public function areOpen(): bool;
-
-    /**
-     * Returns if pipes are able to read output.
-     */
-    public function haveReadSupport(): bool;
-=======
     public function readAndWrite($blocking, $close = false);
 
     /**
@@ -85,7 +59,6 @@ interface PipesInterface
      * @return bool
      */
     public function haveReadSupport();
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
 
     /**
      * Closes file handles and pipes.

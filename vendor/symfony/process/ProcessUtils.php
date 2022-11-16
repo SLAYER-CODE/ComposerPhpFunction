@@ -30,8 +30,6 @@ class ProcessUtils
     }
 
     /**
-<<<<<<< HEAD
-=======
      * Escapes a string to be used as a shell argument.
      *
      * @param string $argument The argument that will be escaped
@@ -81,25 +79,16 @@ class ProcessUtils
     }
 
     /**
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
      * Validates and normalizes a Process input.
      *
      * @param string $caller The name of method call that validates the input
      * @param mixed  $input  The input to validate
      *
-<<<<<<< HEAD
-     * @return mixed
-     *
-     * @throws InvalidArgumentException In case the input is not valid
-     */
-    public static function validateInput(string $caller, $input)
-=======
      * @return mixed The validated input
      *
      * @throws InvalidArgumentException In case the input is not valid
      */
     public static function validateInput($caller, $input)
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
     {
         if (null !== $input) {
             if (\is_resource($input)) {
@@ -108,11 +97,7 @@ class ProcessUtils
             if (\is_string($input)) {
                 return $input;
             }
-<<<<<<< HEAD
-            if (\is_scalar($input)) {
-=======
             if (is_scalar($input)) {
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
                 return (string) $input;
             }
             if ($input instanceof Process) {
@@ -130,12 +115,9 @@ class ProcessUtils
 
         return $input;
     }
-<<<<<<< HEAD
-=======
 
     private static function isSurroundedBy($arg, $char)
     {
         return 2 < \strlen($arg) && $char === $arg[0] && $char === $arg[\strlen($arg) - 1];
     }
->>>>>>> f8060a2572be4182d51fd7b5a4dfc24f66368b6e
 }

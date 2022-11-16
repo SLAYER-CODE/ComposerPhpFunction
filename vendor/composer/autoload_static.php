@@ -4,27 +4,18 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit3701946aaa576201d0d6684a35ac0b0a
+class ComposerStaticInit9783298ed60040a717edb85e21dd2447
 {
     public static $files = array (
-        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '72579e7bd17821bb1321b87411366eae' => __DIR__ . '/..' . '/illuminate/support/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
-<<<<<<< HEAD
-        'm' => 
-        array (
-            'mikehaertl\\tmp\\' => 15,
-            'mikehaertl\\shellcommand\\' => 24,
-            'mikehaertl\\pdftk\\' => 17,
-=======
         't' => 
         array (
             'thiagoalessio\\TesseractOCR\\' => 27,
->>>>>>> 96be3f54cb8b521087f3c73426af75a42effe40f
         ),
         's' => 
         array (
@@ -40,14 +31,6 @@ class ComposerStaticInit3701946aaa576201d0d6684a35ac0b0a
         array (
             'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
-<<<<<<< HEAD
-            'Symfony\\Component\\Process\\' => 26,
-        ),
-        'P' => 
-        array (
-            'Psr\\Log\\' => 8,
-            'Pdfbox\\' => 7,
-=======
             'Symfony\\Contracts\\Translation\\' => 30,
             'Symfony\\Component\\Translation\\' => 30,
             'Symfony\\Component\\Process\\' => 26,
@@ -76,7 +59,6 @@ class ComposerStaticInit3701946aaa576201d0d6684a35ac0b0a
         array (
             'Doctrine\\Inflector\\' => 19,
             'Doctrine\\Common\\Inflector\\' => 26,
->>>>>>> 96be3f54cb8b521087f3c73426af75a42effe40f
         ),
         'C' => 
         array (
@@ -86,23 +68,9 @@ class ComposerStaticInit3701946aaa576201d0d6684a35ac0b0a
     );
 
     public static $prefixDirsPsr4 = array (
-<<<<<<< HEAD
-        'mikehaertl\\tmp\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/mikehaertl/php-tmpfile/src',
-        ),
-        'mikehaertl\\shellcommand\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/mikehaertl/php-shellcommand/src',
-        ),
-        'mikehaertl\\pdftk\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/mikehaertl/php-pdftk/src',
-=======
         'thiagoalessio\\TesseractOCR\\' => 
         array (
             0 => __DIR__ . '/..' . '/thiagoalessio/tesseract_ocr/src',
->>>>>>> 96be3f54cb8b521087f3c73426af75a42effe40f
         ),
         'setasign\\Fpdi\\' => 
         array (
@@ -128,20 +96,6 @@ class ComposerStaticInit3701946aaa576201d0d6684a35ac0b0a
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
-<<<<<<< HEAD
-        'Symfony\\Component\\Process\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/process',
-        ),
-        'Psr\\Log\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
-        ),
-        'Pdfbox\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/php-pdfbox/php-pdfbox/src',
-        ),
-=======
         'Symfony\\Contracts\\Translation\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/translation-contracts',
@@ -206,7 +160,6 @@ class ComposerStaticInit3701946aaa576201d0d6684a35ac0b0a
 
     public static $fallbackDirsPsr4 = array (
         0 => __DIR__ . '/..' . '/nesbot/carbon/src',
->>>>>>> 96be3f54cb8b521087f3c73426af75a42effe40f
     );
 
     public static $prefixesPsr0 = array (
@@ -260,11 +213,11 @@ class ComposerStaticInit3701946aaa576201d0d6684a35ac0b0a
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit3701946aaa576201d0d6684a35ac0b0a::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit3701946aaa576201d0d6684a35ac0b0a::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInit3701946aaa576201d0d6684a35ac0b0a::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit3701946aaa576201d0d6684a35ac0b0a::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit3701946aaa576201d0d6684a35ac0b0a::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit9783298ed60040a717edb85e21dd2447::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit9783298ed60040a717edb85e21dd2447::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInit9783298ed60040a717edb85e21dd2447::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit9783298ed60040a717edb85e21dd2447::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit9783298ed60040a717edb85e21dd2447::$classMap;
 
         }, null, ClassLoader::class);
     }

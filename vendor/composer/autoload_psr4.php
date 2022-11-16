@@ -6,16 +6,6 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-<<<<<<< HEAD
-    'mikehaertl\\tmp\\' => array($vendorDir . '/mikehaertl/php-tmpfile/src'),
-    'mikehaertl\\shellcommand\\' => array($vendorDir . '/mikehaertl/php-shellcommand/src'),
-    'mikehaertl\\pdftk\\' => array($vendorDir . '/mikehaertl/php-pdftk/src'),
-    'Symfony\\Polyfill\\Php80\\' => array($vendorDir . '/symfony/polyfill-php80'),
-    'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
-    'Symfony\\Component\\Process\\' => array($vendorDir . '/symfony/process'),
-    'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
-    'Pdfbox\\' => array($vendorDir . '/php-pdfbox/php-pdfbox/src'),
-=======
     'thiagoalessio\\TesseractOCR\\' => array($vendorDir . '/thiagoalessio/tesseract_ocr/src'),
     'setasign\\Fpdi\\' => array($vendorDir . '/setasign/fpdi/src'),
     'mikehaertl\\tmp\\' => array($vendorDir . '/mikehaertl/php-tmpfile/src'),
@@ -39,5 +29,4 @@ return array(
     'Com\\Tecnick\\Pdf\\Parser\\' => array($vendorDir . '/tecnickcom/tc-lib-pdf-parser/src'),
     'Com\\Tecnick\\Pdf\\Filter\\' => array($vendorDir . '/tecnickcom/tc-lib-pdf-filter/src'),
     '' => array($vendorDir . '/nesbot/carbon/src'),
->>>>>>> 96be3f54cb8b521087f3c73426af75a42effe40f
 );
