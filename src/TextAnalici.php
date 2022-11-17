@@ -21,8 +21,8 @@ include "./Controller/Module/Pdf2Text.php";
 $pdf = 'Resolucion.pdf';
 
 
-$PathDirAbsolute = "/var/www/html/ComposerProject/ArchivosPrueva/"; #Linux
-// $PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
+//$PathDirAbsolute = "/var/www/html/ComposerProject/ArchivosPrueva/"; #Linux
+$PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
 $archivePdf = $PathDirAbsolute . $pdf;
 function getObjectOptions($object)
 {
@@ -271,8 +271,8 @@ function getTextUsingTransformations($texts, $transformations)
                     $isHex   = false;
                     break;
                 case ')':
-                    $document .= $plain;
                     $isPlain   = false;
+                    $document .= $plain;
                     break;
                 case '\\':
                     $c2 = $texts[$i][$j + 1];
@@ -320,6 +320,8 @@ function getTextUsingTransformations($texts, $transformations)
 
 function getDirtyTexts(&$texts, $textContainers)
 {
+    #Se supone que este algoritmo limpia las cadenas para poder observar el texto
+
     for ($j = 0; $j < count($textContainers); $j++) {
         if (preg_match_all(
             "#\[(.*)\]\s*TJ[\n|\r]#ismU",
@@ -346,6 +348,11 @@ function getDirtyTexts(&$texts, $textContainers)
                 implode('', $parts[1])
             ]);
         }
+        #Cada parte del array es un objeto, como un parrafo y muestra 
+        #El texto se muestra pero con cordenadas para insertalo luego dentro del
+        #echo "Partes";
+        #echo implode("",$parts[1]);
+        #print_r($parts);
     }
 }
 
@@ -436,8 +443,9 @@ var_dump(substr($file, 0, 200));
 echo "</TextArea>";
 echo "<p>Filtrando Contenido</p>";
 
-$ArrayTransforamcion = [];
-$ArrayTextos = [];
+$images = [];
+$transformations = [];
+$texts = [];
 #Obteniendo Objetos dentro del archivo de pdf
 #Filtrando por Objetos encontrados
 preg_match_all("#obj#ismU", $file . 'endobj' . "\r", $objetos);
@@ -448,12 +456,15 @@ preg_match_all("#obj[\n|\r](.*)endobj[\n|\r]#ismU", $file .
 
 echo "<p><h2> Imprime los objetos contiene el docuemnt PDF</h2></p>";
 
+
+
 for ($i = 0; $i < count($Contenido[0]); $i++) {
     $currentObject = $Contenido[0][$i];
     #foreach($currentObject as $item){
     echo "<p>New Item| #00xREF |-| ";
     echo substr($currentObject, 0, 300);
     echo "</p>";
+    
     #Obteniendo el contenido de los objetos "STREAM"
     #Sirve para filtrar y una vez filtrado comprobamos si existe algun tipo de ojeto con datos incluidos 
     #Que sirvan de ayuda entonces si deberia continuar
@@ -468,7 +479,6 @@ for ($i = 0; $i < count($Contenido[0]); $i++) {
         #Por ello el programa simplemente seleciona el ultimo ya que ese no contiene la palabra Stream al inicio
         #Para desarollar este tipo de componentes es necesario utilizar algun tipo de desencriptador que permita
         #El desarollo de contenido por medio del PHP
-
         foreach ($stream as $streamOfItem) {
             echo "<p># Mostrnado Contenido # " . substr($streamOfItem, 0, 300) . "</p>";
             #Formateando la cadena
@@ -479,28 +489,44 @@ for ($i = 0; $i < count($Contenido[0]); $i++) {
         #Esta funcion formatea la cadena del Objeto para ver que opciones tienen
         #Una vez creado los objetos simplemente obtenemos los parametros y los asignamos a un diccionario dentro de un array
         $options = getObjectOptions($currentObject);
+        echo "Opciones: ";
         print_r($options);
 
-
         if (!(empty($options['Length1']) &&
-            empty($options['Type']) &&
-            empty($options['Subtype']))) {
-            continue;
+            empty($options['Type']) )) {
             echo "<p><h1>Sin Opciones</h1></p>";
+            continue;
         }
+
+
+        
         unset($options['Length']);
 
         // echo $Texto;
 
-        echo $stream;
+        // echo $stream;
+
         $data = getDecodedStream($stream, $options);
         echo $data;
-
+        $imagendata=base64_encode($data);
+        //echo $imagendata;
+        $out = fopen("C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\Image.png", "wb");     // ready to output anywhere
+        fwrite($out,$stream);  
+        
+        $img = "<img src= 'data:base64, $imagendata' />";
+        print($img);
+        #echo "<p><h1>Creacion de codigo</h1></p>";
+        #Comprueba que el dato tengo Algunos caracteres antes de continuar
         if (strlen($data)) {
+            #Fintra nuevamente los caracteres para su busqueda una vez decodificado el Stream
             if (preg_match_all("#BT[\n|\r](.*)ET[\n|\r]#ismU", $data .
                 'ET' . "\r", $textContainers)) {
-                // print_r($textContainers);
+                #Dentro de estos contenedores o bloques del array se pueden observar que cada caractere
+                #tiene unas cordenadas que indican donden van los textos tambien indican el tamaño de la fuente
+                #print_r($textContainers);
                 $textContainers = @$textContainers[1];
+                #echo "<p><h1>Imprimiendo el primer controlador</h1></p>";
+                #print_r($textContainers);
                 getDirtyTexts($texts, $textContainers);
             } else {
                 getCharTransformations($transformations, $data);
@@ -508,7 +534,8 @@ for ($i = 0; $i < count($Contenido[0]); $i++) {
         }
         $decodedText = getTextUsingTransformations($texts, $transformations);
         echo "<p><h1>Decodificado:</h1></p>";
-        echo $decodedText;
+        $utf8Caracter = (utf8_encode($decodedText));
+        echo  preg_replace('([^A-Za-z0-9 ?¿¡áéúíóñÁÉÍÓÚÑ;,:.°])', '', str_replace("\\r", " ", str_replace("\\n", " ", $utf8Caracter)));
     }
 }
 #Obteniendo el primer elemento del array encontrado dentro de php 
