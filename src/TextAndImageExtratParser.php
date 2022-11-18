@@ -24,13 +24,11 @@
     $doc = $parseador->parseFile($PathDirAbsolute . $documento);
     $images = $doc->getObjectsByType("XObject",'Image');
     $ocr = new TesseractOCR();
-    foreach( $images as $image ) {
+    foreach($images as $image) {
         // echo $image->getContent();
         echo '<img src="data:image/jpg;base64,'. base64_encode($image->getContent()) .'" />';
         echo "Extraendo el Texto";
-        $ocr->imageData($image,0);
-        echo $ocr->run();       
+        
         echo "Si funciono";
     }
-
 ?>
