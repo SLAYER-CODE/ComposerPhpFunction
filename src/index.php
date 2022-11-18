@@ -27,10 +27,10 @@ use Smalot\PdfParser\Page;
 use thiagoalessio\TesseractOCR\TesseractOCR;
 
 #Configurando binarios para la carga de Poopler
-Config::setBinDirectory('C:\xampp7.2\htdocs\composerProject\vendor\bin\poopler');
+#Config::setBinDirectory('C:\xampp7.2\htdocs\composerProject\vendor\bin\poopler');
 #Configurando binarios para los directorios
 $OutPutCachePath = 'C:\xampp7.2\htdocs\composerProject\storage\\';
-Config::setOutputDirectory($OutPutCachePath);
+#Config::setOutputDirectory($OutPutCachePath);
 
 
 function secondsToTime($s)
@@ -112,6 +112,8 @@ foreach ($VarArrayFilters as $documento) {
         #mkdir($PathDirAbsolute . "pdfScaner");
         #exec("pdfimages $PathDirAbsolute\\$document  $PathDirAbsolute\\pdfScanner\\$ArchiveCache");
         #nlink($PathDirAbsolute . "pdfScaner");
+
+        
     }
 }
 

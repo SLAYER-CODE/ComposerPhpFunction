@@ -7,7 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'thiagoalessio\\TesseractOCR\\' => array($vendorDir . '/thiagoalessio/tesseract_ocr/src'),
-    'setasign\\Fpdi\\' => array($vendorDir . '/setasign/fpdi/src'),
     'mikehaertl\\tmp\\' => array($vendorDir . '/mikehaertl/php-tmpfile/src'),
     'mikehaertl\\shellcommand\\' => array($vendorDir . '/mikehaertl/php-shellcommand/src'),
     'mikehaertl\\pdftk\\' => array($vendorDir . '/mikehaertl/php-pdftk/src'),
@@ -19,6 +18,7 @@ return array(
     'Psr\\SimpleCache\\' => array($vendorDir . '/psr/simple-cache/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
+    'OCR\\' => array($vendorDir . '/ocr/core/sources'),
     'NcJoes\\PopplerPhp\\' => array($vendorDir . '/ncjoes/poppler-php/src/PopplerPhp'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Illuminate\\Support\\' => array($vendorDir . '/illuminate/support'),

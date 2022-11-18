@@ -234,19 +234,25 @@ function getDecodeObjet($stream, $options)
 
 function getTextUsingTransformations($texts, $transformations)
 {
+    #SE inicialisa las variables para cada convercion de texto formada desde el inicio
     $document = '';
+
     $convertQuotes = ENT_QUOTES;
     $multibyte = 4;
 
     for ($i = 0; $i < count($texts); $i++) {
+        
         $isHex   = false;
         $isPlain = false;
         $hex     = '';
         $plain   = '';
 
+        #Calcula la cantidad de caracteres que tiene cada array del texto
+        echo "Mapenado Array de un pdf";
+        echo "<p>$texts[$i]</p>";
         for ($j = 0; $j < strlen($texts[$i]); $j++) {
+            #Obtiene cada caracter de la cadena del texto
             $c = $texts[$i][$j];
-
             switch ($c) {
                 case '<':
                     $hex     = '';
@@ -256,7 +262,8 @@ function getTextUsingTransformations($texts, $transformations)
                 case '>':
                     $hexs = str_split($hex, $multibyte);
                     for ($k = 0; $k < count($hexs); $k++) {
-
+                        #Comprueba si el contenido de la variable esta asigando al texto transformado y si esa variable
+                        #existe y no es null asignala para luego ser decodificado como texto
                         $chex = str_pad($hexs[$k], 4, '0');
                         if (isset($transformations[$chex])) {
                             $chex = $transformations[$chex];
@@ -295,7 +302,7 @@ function getTextUsingTransformations($texts, $transformations)
                             '',
                             substr($texts[$i], $j + 1, 3)
                         );
-                        $j     += strlen($oct) - 1;
+                        $j += strlen($oct) - 1;
                         $plain .= html_entity_decode(
                             '&#' . octdec($oct) . ';',
                             $convertQuotes
@@ -305,11 +312,11 @@ function getTextUsingTransformations($texts, $transformations)
                     break;
 
                 default:
+                    if ($isPlain)
+                        $plain .= $c;    
                     if ($isHex)
                         $hex .= $c;
-                    elseif ($isPlain)
-                        $plain .= $c;
-                    break;
+                    break;       
             }
         }
         $document .= "\n";
@@ -445,11 +452,13 @@ echo "<p>Filtrando Contenido</p>";
 
 $images = [];
 $transformations = [];
-$texts = [];
+
 #Obteniendo Objetos dentro del archivo de pdf
 #Filtrando por Objetos encontrados
+
 preg_match_all("#obj#ismU", $file . 'endobj' . "\r", $objetos);
-var_dump($objetos[0]);
+echo "<p><h1>Imprimiendo los objetos encontrados</h1></p>";
+print_r($objetos[0]);
 #Filtrando 
 preg_match_all("#obj[\n|\r](.*)endobj[\n|\r]#ismU", $file .
     'endobj' . "\r", $Contenido);
@@ -457,9 +466,10 @@ preg_match_all("#obj[\n|\r](.*)endobj[\n|\r]#ismU", $file .
 echo "<p><h2> Imprime los objetos contiene el docuemnt PDF</h2></p>";
 
 
-
-for ($i = 0; $i < count($Contenido[0]); $i++) {
-    $currentObject = $Contenido[0][$i];
+$Contenido= $Contenido[1];
+for ($i = 0; $i < count($Contenido); $i++) {
+    $texts = [];
+    $currentObject = $Contenido[$i];
     #foreach($currentObject as $item){
     echo "<p>New Item| #00xREF |-| ";
     echo substr($currentObject, 0, 300);
@@ -468,6 +478,7 @@ for ($i = 0; $i < count($Contenido[0]); $i++) {
     #Obteniendo el contenido de los objetos "STREAM"
     #Sirve para filtrar y una vez filtrado comprobamos si existe algun tipo de ojeto con datos incluidos 
     #Que sirvan de ayuda entonces si deberia continuar
+
     if (preg_match(
         "#stream[\n|\r](.*)endstream[\n|\r]#ismU",
         $currentObject . "endstream\r",
@@ -507,15 +518,19 @@ for ($i = 0; $i < count($Contenido[0]); $i++) {
         // echo $stream;
 
         $data = getDecodedStream($stream, $options);
-        echo $data;
-        $imagendata=base64_encode($data);
-        //echo $imagendata;
-        $out = fopen("C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\Image.png", "wb");     // ready to output anywhere
-        fwrite($out,$stream);  
+        echo "<p><h1>Mostrando los datos decodificados</h1></p>";
         
-        $img = "<img src= 'data:base64, $imagendata' />";
-        print($img);
+        echo $data;
+        echo "<p><h1>Se termino de mostrar los datos decodificados</h1></p>";
+
+        #$imagendata=base64_encode($data);
+        //echo $imagendata;
+        #$out = fopen("C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\Image.png", "wb");     // ready to output anywhere
+        #fwrite($out,$stream);  
+        #$img = "<img src= 'data:base64, $imagendata' />";
+        
         #echo "<p><h1>Creacion de codigo</h1></p>";
+
         #Comprueba que el dato tengo Algunos caracteres antes de continuar
         if (strlen($data)) {
             #Fintra nuevamente los caracteres para su busqueda una vez decodificado el Stream
@@ -527,13 +542,17 @@ for ($i = 0; $i < count($Contenido[0]); $i++) {
                 $textContainers = @$textContainers[1];
                 #echo "<p><h1>Imprimiendo el primer controlador</h1></p>";
                 #print_r($textContainers);
-                getDirtyTexts($texts, $textContainers);
+                #getDirtyTexts($texts, $textContainers);
             } else {
                 getCharTransformations($transformations, $data);
             }
         }
-        $decodedText = getTextUsingTransformations($texts, $transformations);
+        
+        $decodedText = getTextUsingTransformations($textContainers, $transformations);
         echo "<p><h1>Decodificado:</h1></p>";
+        echo utf8_encode($decodedText);
+        echo "<p><h1>Decodificado (UTF-8):</h1></p>";
+        
         $utf8Caracter = (utf8_encode($decodedText));
         echo  preg_replace('([^A-Za-z0-9 ?¿¡áéúíóñÁÉÍÓÚÑ;,:.°])', '', str_replace("\\r", " ", str_replace("\\n", " ", $utf8Caracter)));
     }
