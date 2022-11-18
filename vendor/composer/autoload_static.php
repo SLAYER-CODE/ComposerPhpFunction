@@ -17,10 +17,6 @@ class ComposerStaticInit9783298ed60040a717edb85e21dd2447
         array (
             'thiagoalessio\\TesseractOCR\\' => 27,
         ),
-        's' => 
-        array (
-            'setasign\\Fpdi\\' => 14,
-        ),
         'm' => 
         array (
             'mikehaertl\\tmp\\' => 15,
@@ -40,6 +36,10 @@ class ComposerStaticInit9783298ed60040a717edb85e21dd2447
             'Psr\\SimpleCache\\' => 16,
             'Psr\\Log\\' => 8,
             'Psr\\Container\\' => 14,
+        ),
+        'O' => 
+        array (
+            'OCR\\' => 4,
         ),
         'N' => 
         array (
@@ -71,10 +71,6 @@ class ComposerStaticInit9783298ed60040a717edb85e21dd2447
         'thiagoalessio\\TesseractOCR\\' => 
         array (
             0 => __DIR__ . '/..' . '/thiagoalessio/tesseract_ocr/src',
-        ),
-        'setasign\\Fpdi\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/setasign/fpdi/src',
         ),
         'mikehaertl\\tmp\\' => 
         array (
@@ -119,6 +115,10 @@ class ComposerStaticInit9783298ed60040a717edb85e21dd2447
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'OCR\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ocr/core/sources',
         ),
         'NcJoes\\PopplerPhp\\' => 
         array (
