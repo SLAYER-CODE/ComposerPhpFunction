@@ -25,13 +25,11 @@ use NcJoes\PopplerPhp\Config;
 use NcJoes\PopplerPhp\PdfToCairo;
 use Smalot\PdfParser\Page;
 use thiagoalessio\TesseractOCR\TesseractOCR;
-
 #Configurando binarios para la carga de Poopler
 Config::setBinDirectory('C:\xampp7.2\htdocs\composerProject\vendor\bin\poopler');
 #Configurando binarios para los directorios
 $OutPutCachePath = 'C:\xampp7.2\htdocs\composerProject\storage\\';
 Config::setOutputDirectory($OutPutCachePath);
-
 
 function secondsToTime($s)
 {
@@ -60,9 +58,9 @@ function RemoveElements($files)
 $start_time = microtime(true);
 $parseador = new \Smalot\PdfParser\Parser();
 
-$PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
+// $PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
 
-#$PathDirAbsolute="/home/slayer/Practicas/ArchivosPrueva/"; #Linux
+$PathDirAbsolute="/home/slayer/Practicas/ArchivosPrueva/"; #Linux
 $VarItem = scandir($PathDirAbsolute);
 $VarArrayFilters = array();
 foreach ($VarItem as $item) {

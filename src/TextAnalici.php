@@ -21,8 +21,8 @@ include "./Controller/Module/Pdf2Text.php";
 $pdf = 'Resolucion.pdf';
 
 
-//$PathDirAbsolute = "/var/www/html/ComposerProject/ArchivosPrueva/"; #Linux
-$PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
+$PathDirAbsolute = "/var/www/html/ComposerProject/ArchivosPrueva/"; #Linux
+// $PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
 $archivePdf = $PathDirAbsolute . $pdf;
 function getObjectOptions($object)
 {

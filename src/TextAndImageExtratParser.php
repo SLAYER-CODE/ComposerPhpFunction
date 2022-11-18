@@ -19,15 +19,18 @@
 
     $documento="Resolucion.pdf";
     $parseador = new \Smalot\PdfParser\Parser();
-    $PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
+    $PathDirAbsolute = "/var/www/html/ComposerProject/ArchivosPrueva/"; #Linux
+    // $PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
     $doc = $parseador->parseFile($PathDirAbsolute . $documento);
     $images = $doc->getObjectsByType("XObject",'Image');
     $ocr = new TesseractOCR();
     foreach( $images as $image ) {
-        echo $image->getContent();
+        // echo $image->getContent();
         echo '<img src="data:image/jpg;base64,'. base64_encode($image->getContent()) .'" />';
         echo "Extraendo el Texto";
-        #$ocr->run();       
+        $ocr->imageData($image,0);
+        echo $ocr->run();       
+        echo "Si funciono";
     }
 
 ?>
