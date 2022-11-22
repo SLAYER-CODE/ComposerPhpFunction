@@ -444,12 +444,14 @@ function getCharTransformations(&$transformations, $stream)
     }
 }
 
-// Mosntrado una pequeña informacion de los datos en binario de un pdf
-echo $archivePdf;
-#$file = fopen($archivePdf, 'rb');
-echo "<p>Mostrando Contenido</p>";
 
-$file = @file_get_contents($archivePdf,  (bool) FILE_BINARY, null, 0);
+
+#echo $archivePdf;
+#file = fopen($archivePdf, 'rb');
+#echo "<p>Mostrando Contenido</p>";
+
+#Esto esta bien como se muestra
+$file = file_get_contents($archivePdf);
 if (empty($file)) {
     echo "El archivo se encuentra Vacio";
 }
@@ -461,32 +463,119 @@ echo "</TextArea>";
 
 echo "<p>Filtrando Contenido</p>";
 
-// Terminando de mostrar los datos en binario
-
 $images = [];
 $transformations = [];
 
 #Obteniendo Objetos dentro del archivo de pdf
 #Filtrando por Objetos encontrados
 
-preg_match_all("#obj#ismU", $file . 'endobj' . "\r", $objetosS);
-preg_match_all("#obj#smU", $file, $objects);
-echo "Comparacion :" . count($objects[0]) . ":" . count($objetosS[0]);
-echo ($objects == $objetosS) ? "\tSon iguales" : "\tNo son iguales";
-echo $objects[0][1];
-echo "<p><h1>Imprimiendo los objetos encontrados</h1></p>";
-print_r($objetos[0]);
-#Filtrando 
-preg_match_all("#obj(.*)endobj#s", $file, $Contenido);
-echo "El contenido de los todos los objteos son " . count($Contenido[0]);
-echo "El contenido de los todos los objteos son " . count($Contenido[1]);
+#preg_match_all("#obj#ismU", $file . 'endobj' . "\r", $objetos);
+#echo "<p><h1>Imprimiendo los objetos encontrados</h1></p>";
+//print_r($objetos[0]);
 
-// La primera cadena del array y eso eslo que hace  preg_match_all
-// el primer indice del array '0' obtiene el contenido con los Obj y endobj
-// la segunda cadena 1 contiene los mismos objtos sin la cadena obj y endobj
-echo "<p><h2> Imprime los objetos contiene el docuemnt PDF</h2></p>";
-var_dump($Contenido);
-$conteo = 0;
+if (false === ($trimpos = strpos($file, '%PDF-'))) {
+    throw new Exception('Invalid PDF data: missing %PDF header.');
+}
+
+$pdfData = substr($file, $trimpos);
+
+$offset = 0;
+#Obtieen el primer statxrefPreg encontrado sin offset es igual a 0
+$startxrefPreg = preg_match(
+    '/[\r\n]startxref[\s]*[\r\n]+([0-9]+)[\s]*[\r\n]+%%EOF/i',
+    $pdfData,
+    $matches,
+    \PREG_OFFSET_CAPTURE, #Esto devuele el indice como un entero en la cadena
+    $offset
+);
+
+
+echo "<h1>Mostrando las statxref Offset Igual a : $offset</h1>";
+foreach ($matches as $match) {
+    echo "<p>" . var_dump($match) . "</p>";
+}
+#Si desdeluego obtiene el primer resultado entonces anda a todos si el offset es igual a 0
+
+$pregResult = preg_match_all(
+    '/[\r\n]startxref[\s]*[\r\n]+([0-9]+)[\s]*[\r\n]+%%EOF/i',
+    $pdfData,$matches,
+    \PREG_SET_ORDER, #Ordena los arrays de modo que los que se pongan al otro lado sean sus datos correspondidos y no todos los datos 
+    $offset
+);
+
+
+#Si no se encontraron referencias a los staxref entonces fallara
+echo "<h1>Mostrando todos los staxref encontrados $offset</h1>";
+foreach ($matches as $match) {
+    echo "<p>" . var_dump($match) . "</p>";
+}
+
+$matches =   array_pop($matches); #extrae el ultimo array 
+$startxref = $matches[1]; # extrae el segundo array que se extrajo del array
+echo "<h1>La ultima referencia a startxref es $startxref el contenido tiene una longitud de ".\strlen($pdfData)."</h1>";
+if ($startxref > \strlen($pdfData)) {
+    throw new Exception('Unable to find xref (PDF corrupted?)');
+}else{
+    echo "la referencia de xref es mayor a la del documento ";
+}
+
+#El startxref es el ultimo en la fila de todos los startxref y cuando se quiere ubicar a primer xref entocnes los ubica como si fuera el primera 
+#obteniend la posicion de este y por ultimo igualandolo para obtener la referencia, 
+#sirve para comprobar que el startxref y el primer xref tengna las mismas referencias
+echo strpos($pdfData, 'xref',$startxref);
+
+// Sirve para eliminar los caracteres que ocupan basura al rededor de la referencia exacta al igua que stristr
+$offset=$startxref+4+strspn($pdfData,"\0\t\n\f\r ",$startxref);
+$xref=[];
+while(preg_match('/([0-9]+)[\x20]([0-9]+)[\x20]?([nf]?)(\r\n|[\x20]?[\r\n])/',$pdfData,$matches,\PREG_OFFSET_CAPTURE,$offset)>0){
+    if($matches[0][1]!=$offset){
+        echo "Se esta en otra secccion";
+        break;
+    }
+    echo "Mosntrado las referencias";
+    $offset+=\strlen($matches[0][0]);
+    echo "<p>".$matches[3][0]."</p>";
+    if ('n' == $matches[3][0]) {
+        // create unique object index: [object number]_[generation number]
+        $index = $obj_num.'_'.(int) ($matches[2][0]);
+        // check if object already exist
+        if (!isset($xref['xref'][$index])) {
+            // store object offset position
+            $xref['xref'][$index] = (int) ($matches[1][0]);
+        }
+        ++$obj_num;
+    } elseif ('f' == $matches[3][0]) {
+        ++$obj_num;
+    } else {
+        // object number (index)
+        $obj_num = (int) ($matches[1][0]);
+    }
+}
+echo "<h1> Mosntrado los matches de la primera referencia </h1>";
+print_r($matches);
+#comprueba si tiene la misma referencia entonces significa que no existe algun tipo de cross reference
+echo strlen($matches[0][0]);
+
+#Entonces una vez comprobado se empiesa a decodificar los xref 
+#Se decodifican de 2 formas el primero utilizando decodexref y el segundo decodificando por stream el xref
+
+
+
+
+#echo "<h1>Provando si htmlentities funciona</h1>";
+#$caracteres = substr($file, 0, 300);
+#echo htmlentities(utf8_encode($caracteres)); 
+
+
+
+
+preg_match_all("#obj(.*)endobj#s", $file, $Contenido);
+#echo "<p><h2> Mostrando primer contenido</p></ h2> ";
+
+#echo "<p><h2> Mostrando contenido</p></ h2> ";
+#echo "<p><h2> Imprime los objetos contiene el docuemnt PDF</h2></p>";
+
+$conteo=0;
 $Contenido = $Contenido[1];
 for ($i = 0; $i < count($Contenido); $i++) {
     $texts = [];
