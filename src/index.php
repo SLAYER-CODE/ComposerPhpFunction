@@ -69,7 +69,7 @@ foreach ($VarItem as $item) {
         array_push($VarArrayFilters, $item);
         echo "<h5>$item</h5>";
     }
-}
+}   
 
 foreach ($VarArrayFilters as $documento) {
     if ($documento != "scansmpl.pdf" & $documento!="odajup.pdf") {

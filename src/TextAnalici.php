@@ -241,7 +241,7 @@ function getTextUsingTransformations($texts, $transformations)
     $multibyte = 4;
 
     for ($i = 0; $i < count($texts); $i++) {
-        
+
         $isHex   = false;
         $isPlain = false;
         $hex     = '';
@@ -313,10 +313,10 @@ function getTextUsingTransformations($texts, $transformations)
 
                 default:
                     if ($isPlain)
-                        $plain .= $c;    
+                        $plain .= $c;
                     if ($isHex)
                         $hex .= $c;
-                    break;       
+                    break;
             }
         }
         $document .= "\n";
@@ -436,12 +436,12 @@ function getCharTransformations(&$transformations, $stream)
     }
 }
 
-
+// Mosntrado una pequeña informacion de los datos en binario de un pdf
 echo $archivePdf;
-$file = fopen($archivePdf, 'rb');
+#$file = fopen($archivePdf, 'rb');
 echo "<p>Mostrando Contenido</p>";
 
-$file = @file_get_contents($archivePdf, false, null, 0);
+$file = @file_get_contents($archivePdf,  (bool) FILE_BINARY, null, 0);
 if (empty($file)) {
     echo "El archivo se encuentra Vacio";
 }
@@ -450,41 +450,53 @@ var_dump(substr($file, 0, 200));
 echo "</TextArea>";
 echo "<p>Filtrando Contenido</p>";
 
+// Terminando de mostrar los datos en binario
+
 $images = [];
 $transformations = [];
 
 #Obteniendo Objetos dentro del archivo de pdf
 #Filtrando por Objetos encontrados
 
-preg_match_all("#obj#ismU", $file . 'endobj' . "\r", $objetos);
+preg_match_all("#obj#ismU", $file . 'endobj' . "\r", $objetosS);
+preg_match_all("#obj#smU", $file, $objects);
+echo "Comparacion :" . count($objects[0]) . ":" . count($objetosS[0]);
+echo ($objects == $objetosS) ? "\tSon iguales" : "\tNo son iguales";
+echo $objects[0][1];
 echo "<p><h1>Imprimiendo los objetos encontrados</h1></p>";
 print_r($objetos[0]);
 #Filtrando 
-preg_match_all("#obj[\n|\r](.*)endobj[\n|\r]#ismU", $file .
-    'endobj' . "\r", $Contenido);
+preg_match_all("#obj(.*)endobj#s", $file, $Contenido);
+echo "El contenido de los todos los objteos son " . count($Contenido[0]);
+echo "El contenido de los todos los objteos son " . count($Contenido[1]);
 
+// La primera cadena del array y eso eslo que hace  preg_match_all
+// el primer indice del array '0' obtiene el contenido con los Obj y endobj
+// la segunda cadena 1 contiene los mismos objtos sin la cadena obj y endobj
 echo "<p><h2> Imprime los objetos contiene el docuemnt PDF</h2></p>";
-
-
-$Contenido= $Contenido[1];
+var_dump($Contenido);
+$conteo = 0;
+$Contenido = $Contenido[1];
 for ($i = 0; $i < count($Contenido); $i++) {
     $texts = [];
     $currentObject = $Contenido[$i];
     #foreach($currentObject as $item){
     echo "<p>New Item| #00xREF |-| ";
+    // echo $currentObject;
     echo substr($currentObject, 0, 300);
     echo "</p>";
-    
+
     #Obteniendo el contenido de los objetos "STREAM"
     #Sirve para filtrar y una vez filtrado comprobamos si existe algun tipo de ojeto con datos incluidos 
     #Que sirvan de ayuda entonces si deberia continuar
 
     if (preg_match(
+        #
         "#stream[\n|\r](.*)endstream[\n|\r]#ismU",
-        $currentObject . "endstream\r",
+        $currentObject,
         $stream
     )) {
-        echo "<p><h3>Se encontro " . count($stream) . "</h3></p>";
+        echo "<p><h3>Se encontro7 " . ($stream[0]) . "</h3></p>";
         #Este foreach es para ver el contenido que todos los streams que contiene el array
         #Pero se econtraron 2 del mismo tipo en todos los ojbetos del PDF
         #Por ello el programa simplemente seleciona el ultimo ya que ese no contiene la palabra Stream al inicio
@@ -504,13 +516,13 @@ for ($i = 0; $i < count($Contenido); $i++) {
         print_r($options);
 
         if (!(empty($options['Length1']) &&
-            empty($options['Type']) )) {
+            empty($options['Type']))) {
             echo "<p><h1>Sin Opciones</h1></p>";
             continue;
         }
 
 
-        
+
         unset($options['Length']);
 
         // echo $Texto;
@@ -519,7 +531,7 @@ for ($i = 0; $i < count($Contenido); $i++) {
 
         $data = getDecodedStream($stream, $options);
         echo "<p><h1>Mostrando los datos decodificados</h1></p>";
-        
+
         echo $data;
         echo "<p><h1>Se termino de mostrar los datos decodificados</h1></p>";
 
@@ -528,7 +540,7 @@ for ($i = 0; $i < count($Contenido); $i++) {
         #$out = fopen("C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\Image.png", "wb");     // ready to output anywhere
         #fwrite($out,$stream);  
         #$img = "<img src= 'data:base64, $imagendata' />";
-        
+
         #echo "<p><h1>Creacion de codigo</h1></p>";
 
         #Comprueba que el dato tengo Algunos caracteres antes de continuar
@@ -547,14 +559,18 @@ for ($i = 0; $i < count($Contenido); $i++) {
                 getCharTransformations($transformations, $data);
             }
         }
-        
+
         $decodedText = getTextUsingTransformations($textContainers, $transformations);
         echo "<p><h1>Decodificado:</h1></p>";
         echo utf8_encode($decodedText);
         echo "<p><h1>Decodificado (UTF-8):</h1></p>";
-        
+
         $utf8Caracter = (utf8_encode($decodedText));
         echo  preg_replace('([^A-Za-z0-9 ?¿¡áéúíóñÁÉÍÓÚÑ;,:.°])', '', str_replace("\\r", " ", str_replace("\\n", " ", $utf8Caracter)));
+    
+    } else {
+        $conteo++;
+        echo "Nada relacionado" . $currentObject . "Conteo: " . $conteo;
     }
 }
 #Obteniendo el primer elemento del array encontrado dentro de php 
