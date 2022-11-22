@@ -1,0 +1,29 @@
+{
+  "name": "javleds/fabulosa-libreria",
+  "description": "Composer Proyect",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Edwin Paz Huarahuara",
+      "email": "1edw333@gmail.com"
+    }
+  ],
+  "version": "1.0",
+  "license": "MIT",
+  "require": {
+    "smalot/pdfparser": "^2.2",
+    "thiagoalessio/tesseract_ocr": "^2.12",
+    "ncjoes/poppler-php": "^1.1",
+    "setasign/fpdf": "^1.8",
+    "tecnickcom/tc-lib-pdf-parser": "2.3",
+    "mikehaertl/php-pdftk": "^0.12.1",
+    "php-xpdf/php-xpdf": "^0.2.3",
+    "ocr/core": "^1.0",
+    "bdk/debug": "3.0"
+    },
+  "config": {
+    "allow-plugins": {
+      "kylekatarnls/update-helper": true
+    }
+  }
+}

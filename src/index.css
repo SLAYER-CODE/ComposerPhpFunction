@@ -1,0 +1,14 @@
+.divTextPdf{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.indiceText{
+    position: static;
+}
+h1,h2,h3,h4,h5{
+    font-family: 'Matematica', sans-serif;
+}
+.text{
+    font-size:12px;
+}
