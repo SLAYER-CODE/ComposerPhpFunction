@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "35cf02f128542bd6085740da2bb2d57d",
+    "content-hash": "9aa86fb299b0eef124d1ee2a00995135",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -66,6 +66,114 @@
                 "source": "https://github.com/alchemy-fr/BinaryDriver/tree/master"
             },
             "time": "2016-03-02T13:49:15+00:00"
+        },
+        {
+            "name": "bdk/debug",
+            "version": "v3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bkdotcom/PHPDebugConsole.git",
+                "reference": "4c4678234c7fffca5b4ce1ae7bdd345e27e075d1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bkdotcom/PHPDebugConsole/zipball/4c4678234c7fffca5b4ce1ae7bdd345e27e075d1",
+                "reference": "4c4678234c7fffca5b4ce1ae7bdd345e27e075d1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "replace": {
+                "bdk/backtrace": "2.1",
+                "bdk/errorhandler": "3.2",
+                "bdk/http-message": "1.0",
+                "bdk/pubsub": "2.4",
+                "psr/http-message": "1.0.1"
+            },
+            "require-dev": {
+                "bdk/css-xpath": "dev-master",
+                "bdk/wamp-publisher": "dev-master",
+                "doctrine/dbal": "^2.5.0",
+                "guzzlehttp/psr7": "^1.6",
+                "jdorn/sql-formatter": "^1.2",
+                "monolog/monolog": "^1.0",
+                "php-curl-class/php-curl-class": ">=8.6",
+                "phpunit/phpunit": ">=4.8.35",
+                "psr/log": "^1.0",
+                "psr/simple-cache": "^1.0",
+                "slim/slim": "^2.0",
+                "squizlabs/php_codesniffer": "^3.6",
+                "swiftmailer/swiftmailer": "^5.0",
+                "symfony/http-foundation": ">=2.8",
+                "twig/twig": "^1.0"
+            },
+            "suggest": {
+                "bdk/debug-wamp-client": "Client to display logging published via PHPDebugConsole's WAMP plugin",
+                "bdk/wamp-publisher": "Publish messages to a WAMP (Web Application Messaging Protocol) router",
+                "jdorn/sql-formatter": "A PHP class for formatting and highlighting SQL statements",
+                "psr/log": "PSR-3 : Common interface for logging libraries"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "bdk\\Debug\\Framework\\Laravel\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "bdk\\Debug\\": "src/Debug/",
+                    "bdk\\PubSub\\": "src/PubSub/",
+                    "bdk\\Backtrace\\": "src/Backtrace/",
+                    "bdk\\Container\\": "src/Container/",
+                    "bdk\\HttpMessage\\": "src/HttpMessage/",
+                    "Psr\\Http\\Message\\": "src/Psr7/",
+                    "bdk\\ErrorHandler\\": "src/ErrorHandler/"
+                },
+                "classmap": [
+                    "src/Backtrace/Backtrace.php",
+                    "src/Container/Container.php",
+                    "src/Debug/Debug.php",
+                    "src/Debug/Utility/Utility.php",
+                    "src/ErrorHandler/ErrorHandler.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brad Kent",
+                    "email": "bkfake-github@yahoo.com",
+                    "homepage": "http://www.bradkent.com/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Browser/javascript like console class for PHP",
+            "homepage": "http://bradkent.com/php/debug",
+            "keywords": [
+                "ChromeLogger",
+                "debug",
+                "debugging",
+                "errorhandler",
+                "firephp",
+                "inspect",
+                "logger",
+                "php-debugbar",
+                "phpdebugconsole",
+                "psr-3",
+                "var_dump",
+                "whoops"
+            ],
+            "support": {
+                "docs": "http://bradkent.com/php/debug",
+                "issues": "https://github.com/bkdotcom/PHPDebugConsole/issues",
+                "source": "https://github.com/bkdotcom/PHPDebugConsole"
+            },
+            "time": "2022-10-14T20:21:58+00:00"
         },
         {
             "name": "doctrine/inflector",

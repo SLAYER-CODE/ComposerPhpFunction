@@ -164,10 +164,12 @@ class RawDataParser
         $obj_num = 0;
         // search for cross-reference entries or subsection
         while (preg_match('/([0-9]+)[\x20]([0-9]+)[\x20]?([nf]?)(\r\n|[\x20]?[\r\n])/', $pdfData, $matches, \PREG_OFFSET_CAPTURE, $offset) > 0) {
+            
             if ($matches[0][1] != $offset) {
                 // we are on another section
                 break;
             }
+
             $offset += \strlen($matches[0][0]);
             if ('n' == $matches[3][0]) {
                 // create unique object index: [object number]_[generation number]
@@ -883,9 +885,9 @@ class RawDataParser
             throw new Exception('Invalid PDF data: missing %PDF header.');
         }
 
-        // get PDF content string
         $pdfData = substr($data, $trimpos);
-
+        
+        
         // get xref and trailer data
         $xref = $this->getXrefData($pdfData);
 

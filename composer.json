@@ -19,8 +19,8 @@
     "mikehaertl/php-pdftk": "^0.12.1",
     "php-xpdf/php-xpdf": "^0.2.3",
     "ocr/core": "^1.0",
-    "ocr/some-engine":"^1.0"
-  },
+    "bdk/debug": "3.0"
+    },
   "config": {
     "allow-plugins": {
       "kylekatarnls/update-helper": true
