@@ -62,6 +62,7 @@ class Parser
     {
         $this->config = $config ?: new Config();
         $this->rawDataParser = new RawDataParser($cfg, $this->config);
+    
     }
 
     public function getConfig(): Config
@@ -98,7 +99,7 @@ class Parser
     {
         // Create structure from raw data.
         list($xref, $data) = $this->rawDataParser->parseData($content);
-
+        
         if (isset($xref['trailer']['encrypt'])) {
             throw new \Exception('Secured pdf file are currently not supported.');
         }
@@ -118,7 +119,6 @@ class Parser
 
         $document->setTrailer($this->parseTrailer($xref['trailer'], $document));
         $document->setObjects($this->objects);
-
         return $document;
     }
 
@@ -179,7 +179,6 @@ class Parser
                         // Split xrefs and contents.
                         preg_match('/^((\d+\s+\d+\s*)*)(.*)$/s', $content, $match);
                         $content = $match[3];
-
                         // Extract xrefs.
                         $xrefs = preg_split(
                             '/(\d+\s+\d+\s*)/s',
@@ -205,11 +204,6 @@ class Parser
                             $sub_content = substr($content, $position, (int) $next_position - (int) $position);
 
                             $sub_header = Header::parse($sub_content, $document);
-<<<<<<< HEAD
-                            
-                            
-=======
->>>>>>> 3b4623222288ae26a5e1e153ac2b58a1f5f1ca3c
                             $object = PDFObject::factory($document, $sub_header, '', $this->config);
                             $this->objects[$id] = $object;
                         }
@@ -221,11 +215,6 @@ class Parser
                     break;
 
                 default:
-<<<<<<< HEAD
-                        if ('null' != $part) {
-=======
-                    if ('null' != $part) {
->>>>>>> 3b4623222288ae26a5e1e153ac2b58a1f5f1ca3c
                         $element = $this->parseHeaderElement($part[0], $part[1], $document);
 
                         if ($element) {
@@ -234,13 +223,7 @@ class Parser
                     }
                     break;
             }
-        }
-<<<<<<< HEAD
-        #Aqui es donde se genera el header  
-        // print("<pre>".print_r($header->getElements,true)."</pre>");
-=======
 
->>>>>>> 3b4623222288ae26a5e1e153ac2b58a1f5f1ca3c
         if (!isset($this->objects[$id])) {
             $this->objects[$id] = PDFObject::factory($document, $header, $content, $this->config);
         }
@@ -251,6 +234,7 @@ class Parser
      */
     protected function parseHeader(array $structure, ?Document $document): Header
     {
+        //STRUCTURE = VALUE DEL DATO PARSEADO ENTRE OBJETOS 
         $elements = [];
         $count = \count($structure);
 
@@ -260,6 +244,7 @@ class Parser
             $value = $structure[$position + 1][1];
 
             $elements[$name] = $this->parseHeaderElement($type, $value, $document);
+        
         }
 
         return new Header($elements, $document);

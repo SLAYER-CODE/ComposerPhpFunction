@@ -18,13 +18,14 @@
     include "./Controller/ParserPdf/GetHeader.php";
     include "./Controller/ParserPdf/ParserPdf.php";
     include "./Controller/ParserPdf/PdfParser.php";
-    
-    #$PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
-    $PathDirAbsolute="/home/slayer/Practicas/ArchivosPrueva/"; #Linux
+    include "./Controller/ParserPdf/ParserData.php";
+
+    $PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
+    #$PathDirAbsolute="/home/slayer/Practicas/ArchivosPrueva/"; #Linux
     
     $file = "Resolucion.pdf";
  
     $Parser = new PdfParser($PathDirAbsolute.$file);
-    $ParserData=new ParserPdf();
-    $ParserData->ContentParser($Parser->openPDf());
+    $ParserData=new ParserData();
+    $ParserData->Parser($Parser->openPDf());
 ?>

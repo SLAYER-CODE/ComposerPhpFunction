@@ -233,7 +233,7 @@ class RawDataParser
             if (preg_match('/Prev[\s]+([0-9]+)/i', $trailer_data, $matches) > 0) {
                 // get previous xref
 
-                echo "<p>Se encontro /prev dentro del trailer llamando nuevamente a getXrefData</p>";
+                #echo "<p>Se encontro /prev dentro del trailer llamando nuevamente a getXrefData</p>";
                 $xref = $this->getXrefData($pdfData, (int) ($matches[1]), $xref);
             }
         } else {

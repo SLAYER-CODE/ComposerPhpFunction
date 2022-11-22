@@ -1,7 +1,10 @@
 <?php
+include "Helper.php";
 class ParserPdf
 {
     protected $version = null;
+    protected $filterHelper;
+    
     public function __construct(float $version = null)
     {
         $this->version = $version ?? 1.4;
@@ -11,78 +14,16 @@ class ParserPdf
         return $this->version;
     }
 
-    public function Parser(string $content)
-    {
-    }
-
-
-    protected function DataRefCross(string $pdfData, int $offset = 0, array $xref = []): array
-    {
-        $startxrefPreg = preg_match(
-            '/[\r\n]startxref[\s]*[\r\n]+([0-9]+)[\s]*[\r\n]+%%EOF/i',
-            $pdfData,
-            $xref,
-            \PREG_OFFSET_CAPTURE,
-            $offset
-        );
-
-        if (0 == $offset) {
-            // find last startxref
-            $pregResult = preg_match_all(
-                '/[\r\n]startxref[\s]*[\r\n]+([0-9]+)[\s]*[\r\n]+%%EOF/i',
-                $pdfData,
-                $matches,
-                \PREG_SET_ORDER,
-                $offset
-            );
-            if (0 == $pregResult) {
-                throw new Exception('Unable to find startxref');
-            }
-            $matches = array_pop($matches);
-            $startxref = $matches[1];
-        } elseif (strpos($pdfData, 'xref', $offset) == $offset) {
-            // Already pointing at the xref table
-            $startxref = $offset;
-        } elseif (preg_match('/([0-9]+[\s][0-9]+[\s]obj)/i', $pdfData, $matches, \PREG_OFFSET_CAPTURE, $offset)) {
-            // Cross-Reference Stream object
-            $startxref = $offset;
-        } elseif ($startxrefPreg) {
-            // startxref found
-            $startxref = $matches[1][0];
-        } else {
-            throw new Exception('Unable to find startxref');
-        }
-
-        if ($startxref > \strlen($pdfData)) {
-            throw new Exception('Unable to find xref (PDF corrupted?)');
-        }
-        // check xref position
-        if (strpos($pdfData, 'xref', $startxref) == $startxref) {
-            // Cross-Reference
-            $xref = $this->decodeXref($pdfData, $startxref, $xref);
-        } else {
-            // Cross-Reference Stream
-            $xref = $this->decodeXrefStream($pdfData, $startxref, $xref);
-        }
-        if (empty($xref)) {
-            throw new Exception('Unable to find xref');
-        }
-
-        return $xref;
-    }
-
     protected function decodeXref(string $pdfData, int $startxref, array $xref = []): array
     {
 
-        echo "<p>Entrando a decodeXref</p>";
         $startxref += 4; // 4 is the length of the word 'xref'
         // skip initial white space chars
-        $offset = $startxref + strspn($pdfData, '[\0\t\n\f\r ]', $startxref);
+        $offset = $startxref + strspn($pdfData,"\0\t\n\f\r ", $startxref);
         // initialize object number
         $obj_num = 0;
         // search for cross-reference entries or subsection
         while (preg_match('/([0-9]+)[\x20]([0-9]+)[\x20]?([nf]?)(\r\n|[\x20]?[\r\n])/', $pdfData, $matches, \PREG_OFFSET_CAPTURE, $offset) > 0) {
-
             if ($matches[0][1] != $offset) {
                 // we are on another section
                 break;
@@ -133,7 +74,7 @@ class ParserPdf
             if (preg_match('/Prev[\s]+([0-9]+)/i', $trailer_data, $matches) > 0) {
                 // get previous xref
 
-                echo "<p>Se encontro /prev dentro del trailer llamando nuevamente a getXrefData</p>";
+                //echo "<p>Se encontro /prev dentro del trailer llamando nuevamente a getXrefData</p>";
                 $xref = $this->DataRefCross($pdfData, (int) ($matches[1]), $xref);
             }
         } else {
@@ -143,9 +84,65 @@ class ParserPdf
         return $xref;
     }
 
+    protected function DataRefCross(string $pdfData, int $offset = 0, array $xref = []): array
+    {
+        $startxrefPreg = preg_match(
+            '/[\r\n]startxref[\s]*[\r\n]+([0-9]+)[\s]*[\r\n]+%%EOF/i',
+            $pdfData,
+            $matches,
+            \PREG_OFFSET_CAPTURE,
+            $offset
+        );
+        if (0 == $offset) {
+            // find last startxref
+            $pregResult = preg_match_all(
+                '/[\r\n]startxref[\s]*[\r\n]+([0-9]+)[\s]*[\r\n]+%%EOF/i',
+                $pdfData,
+                $matches,
+                \PREG_SET_ORDER,
+                $offset
+            );
+            if (0 == $pregResult) {
+                throw new Exception('Unable to find startxref');
+            }
+            $matches = array_pop($matches);
+            $startxref = $matches[1];
+        } elseif (strpos($pdfData, 'xref', $offset) == $offset) {
+            // Already pointing at the xref table
+            $startxref = $offset;
+        } elseif (preg_match('/([0-9]+[\s][0-9]+[\s]obj)/i', $pdfData, $matches, \PREG_OFFSET_CAPTURE, $offset)) {
+            // Cross-Reference Stream object
+            $startxref = $offset;
+        } elseif ($startxrefPreg) {
+            // startxref found
+            $startxref = $matches[1][0];
+        } else {
+            throw new Exception('Unable to find startxref');
+            }
+
+        if ($startxref > \strlen($pdfData)) {
+            throw new Exception('Unable to find xref (PDF corrupted?)');
+        }
+        // check xref position
+        #Existe una similitud entre las referencias encontradas
+        if (strpos($pdfData, 'xref', $startxref) == $startxref) {
+            // Cross-Reference
+            print_r($xref);
+            echo "matches";
+            $xref = $this->decodeXref($pdfData, $startxref, $xref);
+        } else {
+            // Cross-Reference Stream
+            $xref = $this->decodeXrefStream($pdfData, $startxref, $xref);
+        }
+        if (empty($xref)) {
+            throw new Exception('Unable to find xref');
+        }
+        return $xref;
+    }
+
+
     protected function getRawObject(string $pdfData, int $offset = 0): array
     {
-        echo "<p>Obteniendo la codificacion para mostrar el objeto</p>";
 
         $objtype = ''; // object type to be returned
         $objval = ''; // object value to be returned
@@ -153,7 +150,7 @@ class ParserPdf
         // skip initial white space chars
         #saltando los caracteres iniciales "\0\t\n\f\r "
         #Si se encuentra algo entonces agrega dentro del offset
-        $offset += strspn($pdfData, $this->config->getPdfWhitespaces(), $offset);
+        $offset += strspn($pdfData, "\0\t\n\f\r ", $offset);
 
         // get first char
         #Obtiene el primer caracter del pdfData por medio de su index por offset 
@@ -290,7 +287,7 @@ class ParserPdf
                     );
                     if (('<' == $char) && 1 == $pregResult) {
                         // remove white space characters
-                        $objval = strtr($matches[1], $this->config->getPdfWhitespaces(), '');
+                        $objval = strtr($matches[1], "\0\t\n\f\r ", '');
                         $offset += \strlen($matches[0]);
                     } elseif (false !== ($endpos = strpos($pdfData, '>', $offset))) {
                         $offset = $endpos + 1;
@@ -328,7 +325,7 @@ class ParserPdf
                     #El substr indica la cadena desde el offset y posteriormente que lo filtre en la cadena de saltos y lienas
                     if (1 == preg_match('/^([\r]?[\n])/isU', substr($pdfData, $offset), $matches)) {
 
-                        echo "<p>Debugger:" . print_r($matches) . " </p>";
+                        #echo "<p>Debugger:" . print_r($matches) . " </p>";
 
                         $offset += \strlen($matches[0]);
 
@@ -339,11 +336,11 @@ class ParserPdf
                             $matches,
                             \PREG_OFFSET_CAPTURE
                         );
-                        echo "<p>Debugger:" . print_r($matches) . " </p>";
+                        // echo "<p>Debugger:" . print_r($matches) . " </p>";
                         #El siguiente codigo obtiene el objval del contendor y procede a realizar un offset
                         #Es decir lo que se encuentra dentro del stream y endstream
                         if (1 == $pregResult) {
-                            echo "<p>Debugger: Se encontro el endstream mostrnado desde $offset y " . $matches[0][1] . " </p>";
+                            // echo "<p>Debugger: Se encontro el endstream mostrnado desde $offset y " . $matches[0][1] . " </p>";
                             $objval = substr($pdfData, $offset, $matches[0][1]);
                             $offset += $matches[1][1];
                         }
@@ -384,7 +381,7 @@ class ParserPdf
     protected function getObjectHeaderPattern(array $objRefs): string
     {
         // consider all whitespace character (PDF specifications)
-        return '/' . $objRefs[0] . $this->config->getPdfWhitespacesRegex() . $objRefs[1] . $this->config->getPdfWhitespacesRegex() . 'obj' . '/';
+        return '/' . $objRefs[0] . '[\0\t\n\f\r ]' . $objRefs[1] . '[\0\t\n\f\r ]' . 'obj' . '/';
     }
 
     protected function getObjectHeaderLen(array $objRefs): int
@@ -414,7 +411,7 @@ class ParserPdf
     protected function decodeStream(string $pdfData, array $xref, array $sdic, string $stream): array
     {
         // get stream length and filters
-        echo "<p>Debugger: Decodificando el stream encontrado MC2 </p>";
+        // echo "<p>Debugger: Decodificando el stream encontrado MC2 </p>";
         #Primero obtiene la cadena entera del stream
         $slength = \strlen($stream);
         #Comprueba que esa cadena no sea menor a 0 si lo es retornara un array vacio
@@ -456,12 +453,33 @@ class ParserPdf
                 }
             }
         }
+        // decode the stream
+        $remaining_filters = [];
+        foreach ($filters as $filter) {
+            if (\in_array($filter, ['ASCIIHexDecode', 'ASCII85Decode', 'LZWDecode', 'FlateDecode', 'RunLengthDecode'])) {
+                try {
+                    $stream = Helper:: decodeObject($filter, $stream, 0);
+                } catch (Exception $e) {
+                    $emsg = $e->getMessage();
+                    if ((('~' == $emsg[0]) && !$this->cfg['ignore_missing_filter_decoders'])
+                        || (('~' != $emsg[0]) && !$this->cfg['ignore_filter_decoding_errors'])
+                    ) {
+                        throw new Exception($e->getMessage());
+                    }
+                }
+            } else {
+                // add missing filter to array
+                $remaining_filters[] = $filter;
+            }
+        }
+
+        return [$stream, $remaining_filters];
+    
     }
 
     protected function getIndirectObject(string $pdfData, array $xref, string $objRef, int $offset = 0, bool $decoding = true): array
     {
 
-        echo "<p>Entrando a la redireccion de objetos</p>";
         /*
          * build indirect object header
          */
@@ -481,19 +499,19 @@ class ParserPdf
          */
         #Desde aca empieza la nueva funcionalidad del Pdf 23/11/22
         // ignore whitespace characters at offset
-        $offset += strspn($pdfData, $this->config->getPdfWhitespaces(), $offset);
+        $offset += strspn($pdfData, "\0\t\n\f\r ", $offset);
         #Obtiene la funcionalidad del offset dentro de strspn
-        echo "<p>Primer Offset: $offset</p>";
+        // echo "<p>Primer Offset: $offset</p>";
         // ignore leading zeros for object number
         $offset += strspn($pdfData, '0', $offset);
-        echo "<p>Segundo offset filtrando el 0: $offset con un length de : $objHeaderLen</p>";
+        // echo "<p>Segundo offset filtrando el 0: $offset con un length de : $objHeaderLen</p>";
 
-        echo "<p>Entrando a la redireccion de objetos</p>";
+        // echo "<p>Entrando a la redireccion de objetos</p>";
         #Se tiene claro que los offsets son bytes del archivo pdf y las tablas de referencia marcan de donde empiesa un objeto
 
-        echo "Mostrando" . substr($pdfData, $offset, $objHeaderLen) . "fin";
+        // echo "Mostrando" . substr($pdfData, $offset, $objHeaderLen) . "fin";
         #echo "Mosntradno los objetos de Header Patter $objRefArr";
-        echo "<p>Despues de obtener el header" . $this->getObjectHeaderPattern($objRefArr) . "Desarollo</p>";
+        // echo "<p>Despues de obtener el header" . $this->getObjectHeaderPattern($objRefArr) . "Desarollo</p>";
 
         #Esta funcion es para comprobar que el objeto se encuentre con sus referencias a las que se indicaron si el objeto no se encuentra 
         #entonces simplemente retorna una undefinicion null del la referencia del objeto
@@ -808,12 +826,12 @@ class ParserPdf
             return null;
         } else {
             if (false === ($HeaderContent = strpos($content, "%PDF-"))) {
-                throw new Exception("El Pdf es invalido no se logro encontrar Header.");
+                throw new Exception("Invalided Head Pdf");
             }
             $ContentPdf = substr($content, $HeaderContent);
-            $ReferencesTable = $this->DataRefCross($ContentPdf);
-            
+            $ReferencesTable = $this->DataRefCross($ContentPdf);        
             $objects = [];
+            
             foreach ($ReferencesTable['xref'] as $obj => $offset) {
                 if (!isset($objects[$obj]) && ($offset > 0)) { 
                     # Enviando objetos como 230_0 y offset 410592 el offset es el index de la referencia 
@@ -821,10 +839,10 @@ class ParserPdf
                     # este numero 230_0 es el numero del objeto y numero de generacion el segundo objeto, es el desplasamiento.
                     $objects[$obj] = $this->getIndirectObject($ContentPdf, $ReferencesTable, $obj, $offset, true);
                     // [Mostrando]|: Mostrnado array de objetos despues de decodicarlos
-                    #var_dump($objects[$obj]);
+                    # var_dump($objects[$obj]);
                 }
             }
-            echo print("<pre>".print_r($ReferencesTable)."</pre>");
+            echo print("<pre>".print_r($ReferencesTable,true)."</pre>");
             return [$ReferencesTable, $objects];
         }
     }

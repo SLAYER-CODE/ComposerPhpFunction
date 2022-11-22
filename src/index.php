@@ -24,7 +24,6 @@ include "../vendor/autoload.php";
 use NcJoes\PopplerPhp\Config;
 use NcJoes\PopplerPhp\PdfToCairo;
 use Smalot\PdfParser\Page;
-
 use thiagoalessio\TesseractOCR\TesseractOCR;
 #Configurando binarios para la carga de Poopler
 #Config::setBinDirectory('C:\xampp7.2\htdocs\composerProject\vendor\bin\poopler');
@@ -59,14 +58,8 @@ function RemoveElements($files)
 $start_time = microtime(true);
 $parseador = new \Smalot\PdfParser\Parser();
 
-<<<<<<< HEAD
 $PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
 #$PathDirAbsolute="/home/slayer/Practicas/ArchivosPrueva/"; #Linux
-
-=======
-#$PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
-$PathDirAbsolute="/home/slayer/Practicas/ArchivosPrueva/"; #Linux
->>>>>>> 3b4623222288ae26a5e1e153ac2b58a1f5f1ca3c
 $VarItem = scandir($PathDirAbsolute);
 
 $VarArrayFilters = array();
@@ -77,6 +70,7 @@ foreach ($VarItem as $item) {
         echo "<h5>$item</h5>";
     }
 }   
+
 
 foreach ($VarArrayFilters as $documento) {
     if ($documento == "Resolucion.pdf") {
@@ -115,6 +109,7 @@ foreach ($VarArrayFilters as $documento) {
     //     #exec("pdfimages $PathDirAbsolute\\$document  $PathDirAbsolute\\pdfScanner\\$ArchiveCache");
     //     #nlink($PathDirAbsolute . "pdfScaner");
     // }
+
 }
 
 $end_time = microtime(true);

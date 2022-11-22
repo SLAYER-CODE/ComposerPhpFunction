@@ -1,78 +1,21 @@
 <?php
-
-/**
- * This file is based on code of tecnickcom/TCPDF PDF library.
- *
- * Original author Nicola Asuni (info@tecnick.com) and
- * contributors (https://github.com/tecnickcom/TCPDF/graphs/contributors).
- *
- * @see https://github.com/tecnickcom/TCPDF
- *
- * Original code was licensed on the terms of the LGPL v3.
- *
- * ------------------------------------------------------------------------------
- *
- * @file This file is part of the PdfParser library.
- *
- * @author  Konrad Abicht <k.abicht@gmail.com>
- * @date    2020-01-06
- *
- * @license LGPLv3
- * @url     <https://github.com/smalot/pdfparser>
- *
- *  PdfParser is a pdf library written in PHP, extraction oriented.
- *  Copyright (C) 2017 - Sébastien MALOT <sebastien@malot.fr>
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Lesser General Public License for more details.
- *
- *  You should have received a copy of the GNU Lesser General Public License
- *  along with this program.
- *  If not, see <http://www.pdfparser.org/sites/default/LICENSE.txt>.
- */
-
-namespace Smalot\PdfParser\RawData;
-
-use Exception;
-
-class FilterHelper
-{
-    protected $availableFilters = ['ASCIIHexDecode', 'ASCII85Decode', 'LZWDecode', 'FlateDecode', 'RunLengthDecode'];
-
-    /**
-     * Decode data using the specified filter type.
-     *
-     * @param string $filter Filter name
-     * @param string $data   Data to decode
-     *
-     * @return string Decoded data string
-     *
-     * @throws Exception if a certain decode function is not implemented yet
-     */
-    public function decodeFilter(string $filter, string $data, int $decodeMemoryLimit = 0): string
-    {
+class Helper{
+    public static function decodeObject(string $filter,string $data,int $decodeMemoryLimit = 0): string{
         switch ($filter) {
             case 'ASCIIHexDecode':
-                return $this->decodeFilterASCIIHexDecode($data);
+                return self::decodeFilterASCIIHexDecode($data);
 
             case 'ASCII85Decode':
-                return $this->decodeFilterASCII85Decode($data);
+                return self::decodeFilterASCII85Decode($data);
 
             case 'LZWDecode':
-                return $this->decodeFilterLZWDecode($data);
+                return self::decodeFilterLZWDecode($data);
 
             case 'FlateDecode':
-                return $this->decodeFilterFlateDecode($data, $decodeMemoryLimit);
+                return self::decodeFilterFlateDecode($data, $decodeMemoryLimit);
 
             case 'RunLengthDecode':
-                return $this->decodeFilterRunLengthDecode($data);
+                return self::decodeFilterRunLengthDecode($data);
 
             case 'CCITTFaxDecode':
                 throw new Exception('Decode CCITTFaxDecode not implemented yet.');
@@ -87,7 +30,7 @@ class FilterHelper
             default:
                 return $data;
         
-            }
+    }
     }
 
     /**
@@ -101,7 +44,7 @@ class FilterHelper
      *
      * @throws Exception
      */
-    protected function decodeFilterASCIIHexDecode(string $data): string
+    protected static function decodeFilterASCIIHexDecode(string $data): string
     {
         // all white-space characters shall be ignored
         $data = preg_replace('/[\s]/', '', $data);
@@ -144,7 +87,7 @@ class FilterHelper
      *
      * @throws Exception
      */
-    protected function decodeFilterASCII85Decode(string $data): string
+    protected static function decodeFilterASCII85Decode(string $data): string
     {
         // initialize string to return
         $decoded = '';
@@ -232,7 +175,7 @@ class FilterHelper
      *
      * @throws Exception
      */
-    protected function decodeFilterFlateDecode(string $data, int $decodeMemoryLimit): ?string
+    protected static function decodeFilterFlateDecode(string $data, int $decodeMemoryLimit): ?string
     {
         /*
          * gzuncompress may throw a not catchable E_WARNING in case of an error (like $data is empty)
@@ -274,7 +217,7 @@ class FilterHelper
      *
      * @return string Data string
      */
-    protected function decodeFilterLZWDecode(string $data): string
+    protected static function decodeFilterLZWDecode(string $data): string
     {
         // initialize string to return
         $decoded = '';
@@ -356,7 +299,7 @@ class FilterHelper
      *
      * @param string $data Data to decode
      */
-    protected function decodeFilterRunLengthDecode(string $data): string
+    protected static function decodeFilterRunLengthDecode(string $data): string
     {
         // initialize string to return
         $decoded = '';
@@ -386,12 +329,5 @@ class FilterHelper
 
         return $decoded;
     }
-
-    /**
-     * @return array list of available filters
-     */
-    public function getAvailableFilters(): array
-    {
-        return $this->availableFilters;
-    }
 }
+?>
