@@ -19,6 +19,39 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'bdk/backtrace' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '2.1',
+            ),
+        ),
+        'bdk/debug' => array(
+            'pretty_version' => 'v3.0',
+            'version' => '3.0.0.0',
+            'reference' => '4c4678234c7fffca5b4ce1ae7bdd345e27e075d1',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../bdk/debug',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'bdk/errorhandler' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '3.2',
+            ),
+        ),
+        'bdk/http-message' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '1.0',
+            ),
+        ),
+        'bdk/pubsub' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '2.4',
+            ),
+        ),
         'doctrine/inflector' => array(
             'pretty_version' => '1.4.4',
             'version' => '1.4.4.0',
@@ -162,6 +195,12 @@
             'install_path' => __DIR__ . '/../psr/container',
             'aliases' => array(),
             'dev_requirement' => false,
+        ),
+        'psr/http-message' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '1.0.1',
+            ),
         ),
         'psr/log' => array(
             'pretty_version' => '1.1.4',

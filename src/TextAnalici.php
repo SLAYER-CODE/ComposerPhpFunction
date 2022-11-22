@@ -14,11 +14,19 @@
 
 </html>
 <?php
+#incluyendo los campos de prueva 
+require "../vendor/bdk/debug/src/Debug/Autoloader.php";
+require "../vendor/autoload.php";
 
 use Pdf2text\Pdf2text;
 
 include "./Controller/Module/Pdf2Text.php";
 $pdf = 'Resolucion.pdf';
+
+$debug = new \bdk\Debug(array(
+    'collect' => true,
+    'output' => true,
+));
 
 
 $PathDirAbsolute = "/var/www/html/ComposerProject/ArchivosPrueva/"; #Linux
@@ -445,9 +453,12 @@ $file = @file_get_contents($archivePdf,  (bool) FILE_BINARY, null, 0);
 if (empty($file)) {
     echo "El archivo se encuentra Vacio";
 }
+
 echo "<TextArea style='width:500px,height: 200px;'>";
+
 var_dump(substr($file, 0, 200));
 echo "</TextArea>";
+
 echo "<p>Filtrando Contenido</p>";
 
 // Terminando de mostrar los datos en binario
@@ -505,8 +516,8 @@ for ($i = 0; $i < count($Contenido); $i++) {
         foreach ($stream as $streamOfItem) {
             echo "<p># Mostrnado Contenido # " . substr($streamOfItem, 0, 300) . "</p>";
             #Formateando la cadena
-
         }
+
         #Seleccionando la segunda  cadena sin stream y limpieando los caracteres externos;
         $stream = ltrim($stream[1]);
         #Esta funcion formatea la cadena del Objeto para ver que opciones tienen
@@ -562,7 +573,10 @@ for ($i = 0; $i < count($Contenido); $i++) {
 
         $decodedText = getTextUsingTransformations($textContainers, $transformations);
         echo "<p><h1>Decodificado:</h1></p>";
+        echo "<TextArea style='width:500px,height: 200px;'>";
         echo utf8_encode($decodedText);
+        echo "</TextArea>";
+
         echo "<p><h1>Decodificado (UTF-8):</h1></p>";
 
         $utf8Caracter = (utf8_encode($decodedText));

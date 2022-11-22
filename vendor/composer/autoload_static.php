@@ -23,6 +23,15 @@ class ComposerStaticInit9783298ed60040a717edb85e21dd2447
             'mikehaertl\\shellcommand\\' => 24,
             'mikehaertl\\pdftk\\' => 17,
         ),
+        'b' => 
+        array (
+            'bdk\\PubSub\\' => 11,
+            'bdk\\HttpMessage\\' => 16,
+            'bdk\\ErrorHandler\\' => 17,
+            'bdk\\Debug\\' => 10,
+            'bdk\\Container\\' => 14,
+            'bdk\\Backtrace\\' => 14,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Php80\\' => 23,
@@ -35,6 +44,7 @@ class ComposerStaticInit9783298ed60040a717edb85e21dd2447
         array (
             'Psr\\SimpleCache\\' => 16,
             'Psr\\Log\\' => 8,
+            'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
         ),
         'O' => 
@@ -84,6 +94,30 @@ class ComposerStaticInit9783298ed60040a717edb85e21dd2447
         array (
             0 => __DIR__ . '/..' . '/mikehaertl/php-pdftk/src',
         ),
+        'bdk\\PubSub\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/bdk/debug/src/PubSub',
+        ),
+        'bdk\\HttpMessage\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/bdk/debug/src/HttpMessage',
+        ),
+        'bdk\\ErrorHandler\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/bdk/debug/src/ErrorHandler',
+        ),
+        'bdk\\Debug\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/bdk/debug/src/Debug',
+        ),
+        'bdk\\Container\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/bdk/debug/src/Container',
+        ),
+        'bdk\\Backtrace\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/bdk/debug/src/Backtrace',
+        ),
         'Symfony\\Polyfill\\Php80\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
@@ -111,6 +145,10 @@ class ComposerStaticInit9783298ed60040a717edb85e21dd2447
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
+        'Psr\\Http\\Message\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/bdk/debug/src/Psr7',
         ),
         'Psr\\Container\\' => 
         array (
@@ -208,6 +246,11 @@ class ComposerStaticInit9783298ed60040a717edb85e21dd2447
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
         'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
+        'bdk\\Backtrace' => __DIR__ . '/..' . '/bdk/debug/src/Backtrace/Backtrace.php',
+        'bdk\\Container' => __DIR__ . '/..' . '/bdk/debug/src/Container/Container.php',
+        'bdk\\Debug' => __DIR__ . '/..' . '/bdk/debug/src/Debug/Debug.php',
+        'bdk\\Debug\\Utility' => __DIR__ . '/..' . '/bdk/debug/src/Debug/Utility/Utility.php',
+        'bdk\\ErrorHandler' => __DIR__ . '/..' . '/bdk/debug/src/ErrorHandler/ErrorHandler.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
