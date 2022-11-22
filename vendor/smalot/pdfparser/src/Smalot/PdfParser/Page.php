@@ -176,9 +176,12 @@ class Page extends PDFObject
 
     public function getText(self $page = null): string
     {
+<<<<<<< HEAD
         #Obteniendo el texto de una pagina de un pdf
         echo "<p>Debugger: Obteniendo el Texto </p>";
         
+=======
+>>>>>>> 3b4623222288ae26a5e1e153ac2b58a1f5f1ca3c
         if ($contents = $this->get('Contents')) {
             if ($contents instanceof ElementMissing) {
                 return '';
@@ -187,8 +190,11 @@ class Page extends PDFObject
             } elseif ($contents instanceof PDFObject) {
                 $elements = $contents->getHeader()->getElements();
 
+<<<<<<< HEAD
                 #Obtiene los elementos del header en ellos tambien estan los objetos
 
+=======
+>>>>>>> 3b4623222288ae26a5e1e153ac2b58a1f5f1ca3c
                 if (is_numeric(key($elements))) {
                     $new_content = '';
 
@@ -199,11 +205,18 @@ class Page extends PDFObject
                             $new_content .= $element->getContent();
                         }
                     }
+<<<<<<< HEAD
 
                     $header = new Header([], $this->document);
                     $contents = new PDFObject($this->document, $header, $new_content, $this->config);
                 }
                 
+=======
+                    $header = new Header([], $this->document);
+                        
+                    $contents = new PDFObject($this->document, $header, $new_content, $this->config);
+                }
+>>>>>>> 3b4623222288ae26a5e1e153ac2b58a1f5f1ca3c
             } elseif ($contents instanceof ElementArray) {
                 // Create a virtual global content.
                 $new_content = '';
@@ -221,9 +234,15 @@ class Page extends PDFObject
              * To combat this we keep a recursionStack containing already parsed elements on the page.
              * The stack is only emptied here after getting text from a page.
              */
+<<<<<<< HEAD
             #Aca esta el problema!!!
             $contentsText = $contents->getText($this);
             PDFObject::$recursionStack = [];
+=======
+            $contentsText = $contents->getText($this);
+            PDFObject::$recursionStack = [];
+
+>>>>>>> 3b4623222288ae26a5e1e153ac2b58a1f5f1ca3c
             return $contentsText;
         }
 

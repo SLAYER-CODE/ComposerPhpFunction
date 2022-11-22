@@ -205,8 +205,11 @@ class Parser
                             $sub_content = substr($content, $position, (int) $next_position - (int) $position);
 
                             $sub_header = Header::parse($sub_content, $document);
+<<<<<<< HEAD
                             
                             
+=======
+>>>>>>> 3b4623222288ae26a5e1e153ac2b58a1f5f1ca3c
                             $object = PDFObject::factory($document, $sub_header, '', $this->config);
                             $this->objects[$id] = $object;
                         }
@@ -218,7 +221,11 @@ class Parser
                     break;
 
                 default:
+<<<<<<< HEAD
                         if ('null' != $part) {
+=======
+                    if ('null' != $part) {
+>>>>>>> 3b4623222288ae26a5e1e153ac2b58a1f5f1ca3c
                         $element = $this->parseHeaderElement($part[0], $part[1], $document);
 
                         if ($element) {
@@ -228,8 +235,12 @@ class Parser
                     break;
             }
         }
+<<<<<<< HEAD
         #Aqui es donde se genera el header  
         // print("<pre>".print_r($header->getElements,true)."</pre>");
+=======
+
+>>>>>>> 3b4623222288ae26a5e1e153ac2b58a1f5f1ca3c
         if (!isset($this->objects[$id])) {
             $this->objects[$id] = PDFObject::factory($document, $header, $content, $this->config);
         }

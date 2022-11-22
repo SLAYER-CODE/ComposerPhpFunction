@@ -909,6 +909,10 @@ class RawDataParser
      */
     protected function getXrefData(string $pdfData, int $offset = 0, array $xref = []): array
     {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3b4623222288ae26a5e1e153ac2b58a1f5f1ca3c
         echo "<p>Funcion getXrefData codificando los datos </p>";
         $startxrefPreg = preg_match(
             '/[\r\n]startxref[\s]*[\r\n]+([0-9]+)[\s]*[\r\n]+%%EOF/i',
@@ -918,6 +922,10 @@ class RawDataParser
             $offset
         );
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3b4623222288ae26a5e1e153ac2b58a1f5f1ca3c
         if (0 == $offset) {
             // find last startxref
             $pregResult = preg_match_all(
@@ -927,7 +935,10 @@ class RawDataParser
                 \PREG_SET_ORDER,
                 $offset
             );
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3b4623222288ae26a5e1e153ac2b58a1f5f1ca3c
             if (0 == $pregResult) {
                 throw new Exception('Unable to find startxref');
             }
@@ -978,6 +989,10 @@ class RawDataParser
 
     public function parseData(string $data): array
     {
+<<<<<<< HEAD
+=======
+        echo "<p>Funcion parseData</p>";
+>>>>>>> 3b4623222288ae26a5e1e153ac2b58a1f5f1ca3c
         if (empty($data)) {
             throw new Exception('Empty PDF data given.');
         }
@@ -996,20 +1011,33 @@ class RawDataParser
         // parse all document objects
         $objects = [];
         foreach ($xref['xref'] as $obj => $offset) {
+<<<<<<< HEAD
             
             if (!isset($objects[$obj]) && ($offset > 0)) {
                 
                 // decode objects with positive offset
                 echo "<p> Se parcean los objetos apartir de la tabla de referencias cruzadas $obj = $offset </p>";
+=======
+            if (!isset($objects[$obj]) && ($offset > 0)) {
+                // decode objects with positive offset
+
+                echo "<p>Se parcean los objetos apartir de la tabla de referencias cruzadas $obj = $offset </p>";
+>>>>>>> 3b4623222288ae26a5e1e153ac2b58a1f5f1ca3c
 
                 # Enviando objetos como 230_0 y offset 410592 el offset es el index de la referencia 
                 # Y el 230_0 es como un id para el objeto
                 # este numero 230_0 es el numero del objeto y numero de generacion el segundo objeto, es el desplasamiento.
+<<<<<<< HEAD
                 
                 $objects[$obj] = $this->getIndirectObject($pdfData, $xref, $obj, $offset, true);
                 
                 # [Mostrando]|: Mostrnado array de objetos despues de decodicarlos
                 # var_dump($objects[$obj]);
+=======
+                $objects[$obj] = $this->getIndirectObject($pdfData, $xref, $obj, $offset, true);
+                // [Mostrando]|: Mostrnado array de objetos despues de decodicarlos
+                #var_dump($objects[$obj]);
+>>>>>>> 3b4623222288ae26a5e1e153ac2b58a1f5f1ca3c
             }
         }
         return [$xref, $objects];

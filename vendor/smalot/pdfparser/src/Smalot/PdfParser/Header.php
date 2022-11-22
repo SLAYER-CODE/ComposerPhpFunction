@@ -124,7 +124,11 @@ class Header
      */
     public function has(string $name): bool
     {
+<<<<<<< HEAD
            return \array_key_exists($name, $this->elements);
+=======
+        return \array_key_exists($name, $this->elements);
+>>>>>>> 3b4623222288ae26a5e1e153ac2b58a1f5f1ca3c
     }
 
     /**
@@ -132,7 +136,10 @@ class Header
      */
     public function get(string $name)
     {
+<<<<<<< HEAD
         //Comprueba que el elemento si exista en una matris
+=======
+>>>>>>> 3b4623222288ae26a5e1e153ac2b58a1f5f1ca3c
         if (\array_key_exists($name, $this->elements) && $element = $this->resolveXRef($name)) {
             return $element;
         }
@@ -156,10 +163,18 @@ class Header
             if (null === $object) {
                 return new ElementMissing();
             }
+<<<<<<< HEAD
             // Update elements list for future calls.
             $this->elements[$name] = $object;
         }
         
+=======
+
+            // Update elements list for future calls.
+            $this->elements[$name] = $object;
+        }
+
+>>>>>>> 3b4623222288ae26a5e1e153ac2b58a1f5f1ca3c
         return $this->elements[$name];
     }
 

@@ -184,6 +184,10 @@ class Page extends PDFObject
                 return '';
             } elseif ($contents instanceof PDFObject) {
                 $elements = $contents->getHeader()->getElements();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3b4623222288ae26a5e1e153ac2b58a1f5f1ca3c
                 if (is_numeric(key($elements))) {
                     $new_content = '';
 

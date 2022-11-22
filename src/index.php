@@ -59,9 +59,14 @@ function RemoveElements($files)
 $start_time = microtime(true);
 $parseador = new \Smalot\PdfParser\Parser();
 
+<<<<<<< HEAD
 $PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
 #$PathDirAbsolute="/home/slayer/Practicas/ArchivosPrueva/"; #Linux
 
+=======
+#$PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
+$PathDirAbsolute="/home/slayer/Practicas/ArchivosPrueva/"; #Linux
+>>>>>>> 3b4623222288ae26a5e1e153ac2b58a1f5f1ca3c
 $VarItem = scandir($PathDirAbsolute);
 
 $VarArrayFilters = array();
