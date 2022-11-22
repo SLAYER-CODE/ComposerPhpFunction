@@ -18,6 +18,7 @@
 require "../vendor/bdk/debug/src/Debug/Autoloader.php";
 require "../vendor/autoload.php";
 
+use Com\Tecnick\Pdf\Parser\Process\Xref;
 use Pdf2text\Pdf2text;
 
 include "./Controller/Module/Pdf2Text.php";
@@ -29,8 +30,8 @@ $debug = new \bdk\Debug(array(
 ));
 
 
-$PathDirAbsolute = "/var/www/html/ComposerProject/ArchivosPrueva/"; #Linux
-// $PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
+#$PathDirAbsolute = "/var/www/html/ComposerProject/ArchivosPrueva/"; #Linux
+$PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
 $archivePdf = $PathDirAbsolute . $pdf;
 function getObjectOptions($object)
 {
@@ -525,14 +526,21 @@ if ($startxref > \strlen($pdfData)) {
 echo strpos($pdfData, 'xref',$startxref);
 
 // Sirve para eliminar los caracteres que ocupan basura al rededor de la referencia exacta al igua que stristr
-$offset=$startxref+4+strspn($pdfData,"\0\t\n\f\r ",$startxref);
+$startxref+=4;
+$offset=$startxref+strspn($pdfData,"\0\t\n\f\r ",$startxref);
 $xref=[];
-while(preg_match('/([0-9]+)[\x20]([0-9]+)[\x20]?([nf]?)(\r\n|[\x20]?[\r\n])/',$pdfData,$matches,\PREG_OFFSET_CAPTURE,$offset)>0){
+$obj_num = 0;
+echo "<p>Preg_match search refereces Wile Cross References OFFSET: $offset</p>";
+
+while (preg_match('/([0-9]+)[\x20]([0-9]+)[\x20]?([nf]?)(\r\n|[\x20]?[\r\n])/', $pdfData, $matches, \PREG_OFFSET_CAPTURE, $offset) > 0) {
+                          
+    print_r($matches[0]);
     if($matches[0][1]!=$offset){
         echo "Se esta en otra secccion";
         break;
     }
-    echo "Mosntrado las referencias";
+
+    echo "Procesando las referencias";
     $offset+=\strlen($matches[0][0]);
     echo "<p>".$matches[3][0]."</p>";
     if ('n' == $matches[3][0]) {
@@ -551,6 +559,51 @@ while(preg_match('/([0-9]+)[\x20]([0-9]+)[\x20]?([nf]?)(\r\n|[\x20]?[\r\n])/',$p
         $obj_num = (int) ($matches[1][0]);
     }
 }
+#imprimiendo array de referencias de los objetos
+
+echo "<h1> Mostrando las referencias de los ojbetos 'Referencia' con el numero de objetos $obj_num </h1>";
+
+print_r($xref);
+
+
+
+if (preg_match('/trailer[\s]*<<(.*)>>/isU', $pdfData, $matches, \PREG_OFFSET_CAPTURE, $offset) > 0) {
+    $trailer_data = $matches[1][0];
+    if (!isset($xref['trailer']) || empty($xref['trailer'])) {
+        // get only the last updated version
+        $xref['trailer'] = [];
+        // parse trailer_data
+        if (preg_match('/Size[\s]+([0-9]+)/i', $trailer_data, $matches) > 0) {
+            $xref['trailer']['size'] = (int) ($matches[1]);
+        }
+        if (preg_match('/Root[\s]+([0-9]+)[\s]+([0-9]+)[\s]+R/i', $trailer_data, $matches) > 0) {
+            $xref['trailer']['root'] = (int) ($matches[1]).'_'.(int) ($matches[2]);
+        }
+        if (preg_match('/Encrypt[\s]+([0-9]+)[\s]+([0-9]+)[\s]+R/i', $trailer_data, $matches) > 0) {
+            $xref['trailer']['encrypt'] = (int) ($matches[1]).'_'.(int) ($matches[2]);
+        }
+        if (preg_match('/Info[\s]+([0-9]+)[\s]+([0-9]+)[\s]+R/i', $trailer_data, $matches) > 0) {
+            $xref['trailer']['info'] = (int) ($matches[1]).'_'.(int) ($matches[2]);
+        }
+        if (preg_match('/ID[\s]*[\[][\s]*[<]([^>]*)[>][\s]*[<]([^>]*)[>]/i', $trailer_data, $matches) > 0) {
+            $xref['trailer']['id'] = [];
+            $xref['trailer']['id'][0] = $matches[1];
+            $xref['trailer']['id'][1] = $matches[2];
+        }
+    }
+    #if (preg_match('/Prev[\s]+([0-9]+)/i', $trailer_data, $matches) > 0) {
+    #    // get previous xref
+    #    $xref = getXrefData($pdfData, (int) ($matches[1]), $xref);
+    #}
+} else {
+    throw new Exception('Unable to find trailer');
+}
+
+echo "<p>TrailerData: '' $trailer_data '' </p>";
+print_r($xref);
+
+
+
 echo "<h1> Mosntrado los matches de la primera referencia </h1>";
 print_r($matches);
 #comprueba si tiene la misma referencia entonces significa que no existe algun tipo de cross reference
@@ -558,8 +611,23 @@ echo strlen($matches[0][0]);
 
 #Entonces una vez comprobado se empiesa a decodificar los xref 
 #Se decodifican de 2 formas el primero utilizando decodexref y el segundo decodificando por stream el xref
+echo "<h1> Obteniendo los objetos desde la tabla de referencias  </h1>";
 
+$objects = [];
+foreach ($xref['xref'] as $obj => $offset) {
+    if (!isset($objects[$obj]) && ($offset > 0)) {
+        // decode objects with positive offset
+        echo  "<p>$offset</p>";
+        echo  "<p>$obj</p>";
 
+        #PASANDO AL LA INICIACION DEL OBJETO 
+
+        #$objects[$obj] = $this->getIndirectObject($pdfData, $xref, $obj, $offset, true);
+
+    }
+}
+
+return [$xref, $objects];
 
 
 #echo "<h1>Provando si htmlentities funciona</h1>";

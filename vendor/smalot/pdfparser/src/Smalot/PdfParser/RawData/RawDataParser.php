@@ -157,6 +157,8 @@ class RawDataParser
      */
     protected function decodeXref(string $pdfData, int $startxref, array $xref = []): array
     {
+        
+        echo "<p>Entrando a decodeXref</p>";
         $startxref += 4; // 4 is the length of the word 'xref'
         // skip initial white space chars
         $offset = $startxref + strspn($pdfData, $this->config->getPdfWhitespaces(), $startxref);
@@ -214,6 +216,8 @@ class RawDataParser
             }
             if (preg_match('/Prev[\s]+([0-9]+)/i', $trailer_data, $matches) > 0) {
                 // get previous xref
+                
+                echo "<p>Se encontro /prev dentro del trailer llamando nuevamente a getXrefData</p>";
                 $xref = $this->getXrefData($pdfData, (int) ($matches[1]), $xref);
             }
         } else {
@@ -521,15 +525,20 @@ class RawDataParser
      */
     protected function getIndirectObject(string $pdfData, array $xref, string $objRef, int $offset = 0, bool $decoding = true): array
     {
+        
+        echo "<p>Entrnado a la redireccion de objetos</p>";
         /*
          * build indirect object header
          */
         // $objHeader = "[object number] [generation number] obj"
+        #Esto es como el split dentro de python
         $objRefArr = explode('_', $objRef);
+        #Compruba que el objeto tenga 2 datos en el array
         if (2 !== \count($objRefArr)) {
             throw new Exception('Invalid object reference for $obj.');
         }
-
+        
+        //Esta funcion obtiene la logitud de la cadena del objeto obtenido por la tabla de referencias para luego ser retornada como un numero entero
         $objHeaderLen = $this->getObjectHeaderLen($objRefArr);
 
         /*
@@ -563,7 +572,7 @@ class RawDataParser
             $objContentArr[$i] = $element;
             ++$i;
         } while (('endobj' !== $element[0]) && ($offset !== $oldOffset));
-        // remove closing delimiter
+         // remove closing delimiter
         array_pop($objContentArr);
 
         /*
@@ -596,7 +605,6 @@ class RawDataParser
                 return $this->objects[$obj[1]];
             }
         }
-
         return $obj;
     }
 
@@ -812,6 +820,8 @@ class RawDataParser
      */
     protected function getXrefData(string $pdfData, int $offset = 0, array $xref = []): array
     {
+        
+        echo "<p>Funcion getXrefData codificando los datos </p>";
         $startxrefPreg = preg_match(
             '/[\r\n]startxref[\s]*[\r\n]+([0-9]+)[\s]*[\r\n]+%%EOF/i',
             $pdfData,
@@ -875,8 +885,10 @@ class RawDataParser
      * @throws Exception if empty PDF data given
      * @throws Exception if PDF data missing %PDF header
      */
-    public function parseData(string $data): array
+
+     public function parseData(string $data): array
     {
+        echo "<p>Funcion parseData </p>";
         if (empty($data)) {
             throw new Exception('Empty PDF data given.');
         }
@@ -896,10 +908,16 @@ class RawDataParser
         foreach ($xref['xref'] as $obj => $offset) {
             if (!isset($objects[$obj]) && ($offset > 0)) {
                 // decode objects with positive offset
+                
+                echo "<p>Se parcean los objetos apartir de la tabla de referencias cruzadas $obj = $offset </p>";
+                
+                # Enviando objetos como 230_0 y offset 410592 el offset es el index de la referencia 
+                # Y el 230_0 es como un id para el objeto
+                # este numero 230_0 es el numero del objeto y numero de generacion el segundo objeto, es el desplasamiento.
                 $objects[$obj] = $this->getIndirectObject($pdfData, $xref, $obj, $offset, true);
+                var_dump($objects[$obj]);
             }
         }
-
         return [$xref, $objects];
     }
 }

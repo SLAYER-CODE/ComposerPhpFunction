@@ -1,4 +1,4 @@
 /vendor
 /autoload
 .env
-
+!vendor/smalot

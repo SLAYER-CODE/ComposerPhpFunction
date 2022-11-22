@@ -74,6 +74,7 @@ class Parser
      */
     public function parseFile(string $filename): Document
     {
+        
         $content = file_get_contents($filename);
         /*
          * 2018/06/20 @doganoo as multiple times a
@@ -94,11 +95,19 @@ class Parser
      * @throws \Exception if secured PDF file was detected
      * @throws \Exception if no object list was found
      */
+
     public function parseContent(string $content): Document
     {
         // Create structure from raw data.
         list($xref, $data) = $this->rawDataParser->parseData($content);
+        echo "<p> Se parceo los datos</p>";
 
+        var_dump($xref);                    
+        echo "<p> Referencias de la tabla encontradas: ".count($xref["xref"])."</p>";
+
+        #Lo primero que realiza para leer el documento es buscar si existe un tratiler para saber si el documento esta encriptado
+
+        #echo "<p>".var_dump($data)."</p>";
         if (isset($xref['trailer']['encrypt'])) {
             throw new \Exception('Secured pdf file are currently not supported.');
         }
@@ -106,11 +115,11 @@ class Parser
         if (empty($data)) {
             throw new \Exception('Object list not found. Possible secured file.');
         }
-
+        
         // Create destination object.
         $document = new Document();
         $this->objects = [];
-
+        #Parseando los objetos una vez se encuentren en la tabla de referencias
         foreach ($data as $id => $structure) {
             $this->parseObject($id, $structure, $document);
             unset($data[$id]);
