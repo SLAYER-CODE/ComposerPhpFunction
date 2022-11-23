@@ -19,6 +19,7 @@
     $pdf = 'Resolucion.pdf';
     $documento = $parseador->parseFile($PathDirAbsolute.$pdf);
     $obj = $documento->getObjects();
+    
     #foreach($obj as $item){
     #    echo "<p>Desarollo de sistemas</p>";
     #    #var_dump($item);
