@@ -1,5 +1,5 @@
-/vendor
+/vendor/*
 /autoload
 .env
-!/vendor/smalot
-!/vendor/smalotDGB
+!/vendor/smalot/
+!/vendor/smalotDGB/
