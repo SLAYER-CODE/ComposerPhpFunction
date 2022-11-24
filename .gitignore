@@ -2,3 +2,4 @@
 /autoload
 .env
 !vendor/smalot
+!vendor/smalotDGB

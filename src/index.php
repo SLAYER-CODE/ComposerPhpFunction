@@ -59,9 +59,8 @@ function RemoveElements($files)
 $start_time = microtime(true);
 $parseador = new \Smalot\PdfParser\Parser();
 
-// $PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
-
-$PathDirAbsolute="/home/slayer/Practicas/ArchivosPrueva/"; #Linux
+$PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
+#$PathDirAbsolute="/home/slayer/Practicas/ArchivosPrueva/"; #Linux
 $VarItem = scandir($PathDirAbsolute);
 
 $VarArrayFilters = array();
@@ -74,7 +73,7 @@ foreach ($VarItem as $item) {
 }   
 
 foreach ($VarArrayFilters as $documento) {
-    if ($documento != "scansmpl.pdf" & $documento!="odajup.pdf") {
+    if ($documento == "Resolucion.pdf") {
         try {
             $doc = $parseador->parseFile($PathDirAbsolute . $documento);
         } catch (Exception $e) {
@@ -89,32 +88,29 @@ foreach ($VarArrayFilters as $documento) {
         foreach ($paginas as $indice => $pagina) {
             $texto = $pagina->getText();
             $indice += 1;
-            printItemPrime($indice, $texto);
+            #printItemPrime($indice, $texto);
         }
         echo "</div>";
-    } else {
-        #Create Archive
-        $cairo = new PdfToCairo($PathDirAbsolute . $documento);
-        $pngPdf = $cairo->generateJPG();
-        $index = 1;
-        foreach (scandir($OutPutCachePath) as $pagina) {
-            $extencion = (new SplFileInfo($pagina))->getExtension();
-            if ($extencion == "jpg") {
-                echo "$OutPutCachePath.$pagina";
-                $texto = (new TesseractOCR($OutPutCachePath . $pagina))->run();
-                printItemPrime($index, $texto);
-            }
-        }
-        RemoveElements(glob($OutPutCachePath . "*"));
-
-
-        #$ArchiveCache = "ArchiveCache";
-        #mkdir($PathDirAbsolute . "pdfScaner");
-        #exec("pdfimages $PathDirAbsolute\\$document  $PathDirAbsolute\\pdfScanner\\$ArchiveCache");
-        #nlink($PathDirAbsolute . "pdfScaner");
-
-        
-    }
+    } 
+    // else {
+    //     #Create Archive
+    //     $cairo = new PdfToCairo($PathDirAbsolute . $documento);
+    //     $pngPdf = $cairo->generateJPG();
+    //     $index = 1;
+    //     foreach (scandir($OutPutCachePath) as $pagina) {
+    //         $extencion = (new SplFileInfo($pagina))->getExtension();
+    //         if ($extencion == "jpg") {
+    //             echo "$OutPutCachePath.$pagina";
+    //             $texto = (new TesseractOCR($OutPutCachePath . $pagina))->run();
+    //             printItemPrime($index, $texto);
+    //         }
+    //     }
+    //     RemoveElements(glob($OutPutCachePath . "*"));
+    //     #$ArchiveCache = "ArchiveCache";
+    //     #mkdir($PathDirAbsolute . "pdfScaner");
+    //     #exec("pdfimages $PathDirAbsolute\\$document  $PathDirAbsolute\\pdfScanner\\$ArchiveCache");
+    //     #nlink($PathDirAbsolute . "pdfScaner");
+    // }
 }
 
 $end_time = microtime(true);

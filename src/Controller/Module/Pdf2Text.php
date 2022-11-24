@@ -433,7 +433,7 @@ class Pdf2text
             $stream, $chars, PREG_SET_ORDER);
         preg_match_all("#([0-9]+)\s+beginbfrange(.*)endbfrange#ismU",
             $stream, $ranges, PREG_SET_ORDER);
-
+        
         for ($j = 0; $j < count($chars); $j++) {
             $count = $chars[$j][1];
             $current = explode("\n", trim($chars[$j][2]));

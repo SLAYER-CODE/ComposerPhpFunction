@@ -199,7 +199,7 @@ function decodeAscii85($input)
  */
 function decodeFlate($data)
 {
-    return gzuncompress($data);
+    return gzuncompress($data,0);
 }
 
 function getDecodedStream($stream, $options)
@@ -627,7 +627,7 @@ foreach ($xref['xref'] as $obj => $offset) {
     }
 }
 
-return [$xref, $objects];
+#return [$xref, $objects];
 
 
 #echo "<h1>Provando si htmlentities funciona</h1>";
@@ -638,8 +638,6 @@ return [$xref, $objects];
 
 
 preg_match_all("#obj(.*)endobj#s", $file, $Contenido);
-#echo "<p><h2> Mostrando primer contenido</p></ h2> ";
-
 #echo "<p><h2> Mostrando contenido</p></ h2> ";
 #echo "<p><h2> Imprime los objetos contiene el docuemnt PDF</h2></p>";
 
@@ -727,7 +725,7 @@ for ($i = 0; $i < count($Contenido); $i++) {
                 getCharTransformations($transformations, $data);
             }
         }
-
+        
         $decodedText = getTextUsingTransformations($textContainers, $transformations);
         echo "<p><h1>Decodificado:</h1></p>";
         echo "<TextArea style='width:500px,height: 200px;'>";

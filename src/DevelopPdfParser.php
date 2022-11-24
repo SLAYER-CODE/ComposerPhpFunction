@@ -13,7 +13,7 @@
 <?php
     include "../vendor/autoload.php";
     use Smalot\PdfParser\Page;
-
+    
     $parseador = new \Smalot\PdfParser\Parser();
     $PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
     $pdf = 'Resolucion.pdf';
