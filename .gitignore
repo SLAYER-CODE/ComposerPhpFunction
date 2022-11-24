@@ -1,5 +1,6 @@
-/vendor/*
 /autoload
 .env
+/vendor/*
+!/vendor/smalotDBG
 !/vendor/smalot
-!/vendor/smalotDGB
+!/.gitignore
