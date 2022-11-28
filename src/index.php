@@ -61,6 +61,7 @@ $parseador = new \Smalot\PdfParser\Parser();
 
 $PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
 #$PathDirAbsolute="/home/slayer/Practicas/ArchivosPrueva/"; #Linux
+
 $VarItem = scandir($PathDirAbsolute);
 
 $VarArrayFilters = array();
@@ -81,15 +82,13 @@ foreach ($VarArrayFilters as $documento) {
         }
         $paginas = $doc->getPages();
         $title = $doc->getDetails();
-        echo "<h1>$documento</h1>";
+/*         echo "<h1>$documento</h1>";
         print_r($title);
         echo "<div class='divTextPdf'>";
-
-        foreach ($paginas as $indice => $pagina) {
-            $texto = $pagina->getText();
-            $indice += 1;
+ */
+        #Obteniendo el texto empesando desde aca
+         $texto = $paginas[0]->getText();
             #printItemPrime($indice, $texto);
-        }
         echo "</div>";
     } 
     // else {

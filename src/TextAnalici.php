@@ -731,12 +731,10 @@ for ($i = 0; $i < count($Contenido); $i++) {
         echo "<TextArea style='width:500px,height: 200px;'>";
         echo utf8_encode($decodedText);
         echo "</TextArea>";
-
         echo "<p><h1>Decodificado (UTF-8):</h1></p>";
 
         $utf8Caracter = (utf8_encode($decodedText));
         echo  preg_replace('([^A-Za-z0-9 ?¿¡áéúíóñÁÉÍÓÚÑ;,:.°])', '', str_replace("\\r", " ", str_replace("\\n", " ", $utf8Caracter)));
-    
     } else {
         $conteo++;
         echo "Nada relacionado" . $currentObject . "Conteo: " . $conteo;
