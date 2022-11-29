@@ -81,15 +81,13 @@ foreach ($VarArrayFilters as $documento) {
         }
         $paginas = $doc->getPages();
         $title = $doc->getDetails();
-        echo "<h1>$documento</h1>";
+/*         echo "<h1>$documento</h1>";
         print_r($title);
         echo "<div class='divTextPdf'>";
-
-        foreach ($paginas as $indice => $pagina) {
-            $texto = $pagina->getText();
-            $indice += 1;
+ */
+        #Obteniendo el texto empesando desde aca
+         $texto = $paginas[0]->getText();
             #printItemPrime($indice, $texto);
-        }
         echo "</div>";
     } 
     // else {
