@@ -11,15 +11,22 @@
 </body>
 </html>
 <?php
-    include "./getHeader.php";
-    include "./parserData.php";
-    $PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
-    #$PathDirAbsolute="/home/slayer/Practicas/ArchivosPrueva/"; #Linux
+
+    error_reporting(E_ALL | E_STRICT);
+    ini_set('display_errors', 'On');
+
+    include "./Controller/ParserPdf/GetHeader.php";
+    include "./Controller/ParserPdf/ParserPdf.php";
+    include "./Controller/ParserPdf/PdfParser.php";
     
+    #$PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
+    $PathDirAbsolute="/home/slayer/Practicas/ArchivosPrueva/"; #Linux
     
     $file = "Resolucion.pdf";
-    $fileBinary=file_get_contents($PathDirAbsolute.$file);
-    // echo $fileBinary
-    
+ 
+    $Parser = new PdfParser($PathDirAbsolute.$file);
+    $ParserData=new ParserPdf();
+    $ParserData->ContentParser($Parser->openPDf());
 
+    
 ?>
