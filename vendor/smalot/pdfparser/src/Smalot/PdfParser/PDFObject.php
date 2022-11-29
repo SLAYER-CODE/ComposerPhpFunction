@@ -186,13 +186,11 @@ class PDFObject
 
     public function getSectionsText(?string $content): array
     {
-        #Esta seccion solo se encarga de limpiar caracteres extraños y obtener mas informacion acerca del  texto
         $sections = [];
         $content = ' '.$content.' ';
         $textCleaned = $this->cleanContent($content, '_');
-        
+
         // Extract text blocks.
-        //Desplegando el texto en bloques 
         if (preg_match_all('/(\sQ)?\s+BT[\s|\(|\[]+(.*?)\s*ET(\sq)?/s', $textCleaned, $matches, \PREG_OFFSET_CAPTURE)) {
             foreach ($matches[2] as $pos => $part) {
                 $text = $part[0];
@@ -214,7 +212,6 @@ class PDFObject
         }
 
         // Extract 'do' commands.
-        // Esto extrae los comandos del texto y activan una funcion en especial
         if (preg_match_all('/(\/[A-Za-z0-9\.\-_]+\s+Do)\s/s', $textCleaned, $matches, \PREG_OFFSET_CAPTURE)) {
             foreach ($matches[1] as $part) {
                 $text = $part[0];
@@ -224,6 +221,7 @@ class PDFObject
                 $sections[] = $section;
             }
         }
+
         return $sections;
     }
 
@@ -251,7 +249,6 @@ class PDFObject
      */
     public function getText(?Page $page = null): string
     {
-        #Esto decodifica el texto
         $result = '';
         $sections = $this->getSectionsText($this->content);
         $current_font = $this->getDefaultFont($page);
@@ -268,10 +265,6 @@ class PDFObject
             $text = '';
 
             foreach ($commands as $command) {
-                //echo "<p>Debugger:".print_r($command)." </p>"; 
-                #Esto obtiene los operadores que se encuentran del array como o y tiene un diccionario de clave valor
-                
-                echo "<p>Debugger:".$command[self::OPERATOR]." </p>";
                 switch ($command[self::OPERATOR]) {
                     case 'BMC':
                         if ('ReversedChars' == $command[self::COMMAND]) {
@@ -282,7 +275,7 @@ class PDFObject
                     // set character spacing
                     case 'Tc':
                         break;
-                        #configuracion
+
                     // move text current point
                     case 'Td':
                         $args = preg_split('/\s/s', $command[self::COMMAND]);
@@ -345,7 +338,9 @@ class PDFObject
                         $command[self::COMMAND] = [$command];
                         // no break
                     case 'TJ':
+                        #Esto es lo que decodifica el texto
                         $sub_text = $current_font->decodeText($command[self::COMMAND]);
+                        
                         $text .= $sub_text;
                         break;
 

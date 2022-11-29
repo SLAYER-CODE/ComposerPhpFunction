@@ -104,6 +104,7 @@ class Font extends PDFObject
      */
     public function translateChar(string $char, bool $use_default = true)
     {
+        //Esta es la verdadera funcion de la cual se combierte a texto
         $dec = hexdec(bin2hex($char));
 
         if (\array_key_exists($dec, $this->table)) {
@@ -126,7 +127,6 @@ class Font extends PDFObject
                 // See table 5.11 on PDF 1.5 specs for more info
             }
         }
-
         return $use_default ? self::MISSING : $fallbackDecoded;
     }
 
@@ -339,7 +339,8 @@ class Font extends PDFObject
      * Decode string with octal-decoded chunks.
      */
     public static function decodeOctal(string $text): string
-    {
+    {   
+        #SE ENTRO AQUI
         $parts = preg_split('/(\\\\[0-7]{3})/s', $text, -1, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
         $text = '';
 
@@ -350,7 +351,6 @@ class Font extends PDFObject
                 $text .= $part;
             }
         }
-
         return $text;
     }
 
@@ -416,16 +416,18 @@ class Font extends PDFObject
         foreach ($commands as $command) {
             switch ($command[PDFObject::TYPE]) {
                 case 'n':
+
                     if ((float) (trim($command[PDFObject::COMMAND])) < $font_space) {
                         $word_position = \count($words);
                     }
                     continue 2;
                 case '<':
                     // Decode hexadecimal.
-                    $text = self::decodeHexadecimal('<'.$command[PDFObject::COMMAND].'>');
+                    $text = self::decodeHexadecimal('<' . $command[PDFObject::COMMAND] . '>');
                     break;
 
                 default:
+                    #Esta es la decodificacion octal 
                     // Decode octal (if necessary).
                     $text = self::decodeOctal($command[PDFObject::COMMAND]);
             }
@@ -446,6 +448,7 @@ class Font extends PDFObject
         }
 
         foreach ($words as &$word) {
+            #Esto es lo que decodifica el texto
             $word = $this->decodeContent($word);
         }
 
@@ -459,6 +462,7 @@ class Font extends PDFObject
      */
     public function decodeContent(string $text, ?bool &$unicode = null): string
     {
+        #Esto decodifica el texto con la fuente indicada 
         if ($this->has('ToUnicode')) {
             return $this->decodeContentByToUnicodeCMapOrDescendantFonts($text);
         }
@@ -485,6 +489,7 @@ class Font extends PDFObject
      */
     private function decodeContentByToUnicodeCMapOrDescendantFonts(string $text): string
     {
+        
         $bytes = $this->tableSizes['from'];
 
         if ($bytes) {
@@ -493,7 +498,8 @@ class Font extends PDFObject
 
             for ($i = 0; $i < $length; $i += $bytes) {
                 $char = substr($text, $i, $bytes);
-
+                #Basicamnete lo que se encuentra aca decodifica lo que se esta buscando
+                //Esta es la funcionalidad del decodificador
                 if (false !== ($decoded = $this->translateChar($char, false))) {
                     $char = $decoded;
                 } elseif ($this->has('DescendantFonts')) {
@@ -502,8 +508,8 @@ class Font extends PDFObject
                     } else {
                         $fonts = $this->get('DescendantFonts')->getContent();
                     }
+                    
                     $decoded = false;
-
                     foreach ($fonts as $font) {
                         if ($font instanceof self) {
                             if (false !== ($decoded = $font->translateChar($char, false))) {
