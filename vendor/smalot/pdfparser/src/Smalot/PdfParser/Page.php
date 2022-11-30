@@ -202,6 +202,7 @@ class Page extends PDFObject
 
                     $header = new Header([], $this->document);
                     $contents = new PDFObject($this->document, $header, $new_content, $this->config);
+                    
                 }
                 
             } elseif ($contents instanceof ElementArray) {
@@ -368,7 +369,7 @@ class Page extends PDFObject
 
                 return $contents->getTextArray($this);
             }
-
+            
             return [];
         }
     }

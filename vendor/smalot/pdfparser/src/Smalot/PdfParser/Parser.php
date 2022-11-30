@@ -290,6 +290,7 @@ class Parser
                 return ElementName::parse('/'.$value, $document);
 
             case 'ojbref': // old mistake in tcpdf parser
+               
             case 'objref':
                 return new ElementXRef($value, $document);
 

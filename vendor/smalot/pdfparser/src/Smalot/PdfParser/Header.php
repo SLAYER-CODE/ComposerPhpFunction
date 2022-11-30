@@ -150,17 +150,17 @@ class Header
     protected function resolveXRef(string $name)
     {
         if (($obj = $this->elements[$name]) instanceof ElementXRef && null !== $this->document) {
+            
             /** @var ElementXRef $obj */
+            
             $object = $this->document->getObjectById($obj->getId());
 
             if (null === $object) {
                 return new ElementMissing();
             }
-
             // Update elements list for future calls.
             $this->elements[$name] = $object;
         }
-
         return $this->elements[$name];
     }
 

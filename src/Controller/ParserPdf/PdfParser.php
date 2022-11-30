@@ -10,7 +10,6 @@
             $fileOpenPDf=file_get_contents($this->fileBinary);
             return $fileOpenPDf;
             #Open pdf abriendo contenedor para observar el tipo de contenido dentro de open pdf
-            
         }
 
     }

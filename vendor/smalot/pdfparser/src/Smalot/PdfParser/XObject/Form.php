@@ -43,7 +43,6 @@ class Form extends Page
     {
         $header = new Header([], $this->document);
         $contents = new PDFObject($this->document, $header, $this->content, $this->config);
-
         return $contents->getText($this);
     }
 }
