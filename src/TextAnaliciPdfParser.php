@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+<!--  -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
@@ -19,7 +20,6 @@
     include "./Controller/ParserPdf/ParserPdf.php";
     include "./Controller/ParserPdf/PdfParser.php";
     include "./Controller/ParserPdf/ParserData.php";
-
     $PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
     #$PathDirAbsolute="/home/slayer/Practicas/ArchivosPrueva/"; #Linux
     

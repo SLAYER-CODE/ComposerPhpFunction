@@ -1,5 +1,19 @@
 <?php
-class Helper{
+
+class Helper {
+    protected static $formats = [
+        4 => 'Y',
+        6 => 'Ym',
+        8 => 'Ymd',
+        10 => 'YmdH',
+        12 => 'YmdHi',
+        14 => 'YmdHis',
+        15 => 'YmdHise',
+        17 => 'YmdHisO',
+        18 => 'YmdHisO',
+        19 => 'YmdHisO',
+    ];
+
     public static function decodeObject(string $filter,string $data,int $decodeMemoryLimit = 0): string{
         switch ($filter) {
             case 'ASCIIHexDecode':

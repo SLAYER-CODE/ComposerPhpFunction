@@ -13,10 +13,7 @@
 
 
 <?php
-
-
     include "../vendor/autoload.php";
-    use Com\Tecnick\Pdf\Parser\Parser;
     use thiagoalessio\TesseractOCR\TesseractOCR;
     
     function secondsToTime($s)
@@ -27,24 +24,31 @@
         return "TIME: <strong>" . $hours.' : '.$minutes.' : '.$seconds.' :</strong>';
     }
     $start_time = microtime(true);
-    $documento="odajup.pdf";
+    $documento="Resolucion.pdf";
     $PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
     $parseador = new \Smalot\PdfParser\Parser();
     $doc = $parseador->parseFile($PathDirAbsolute . $documento);
-    $images = $doc->getObjectsByType("XObject",'Image');
+    
+    $images = $doc->getObjectsByType("XObject",'Image');    
+    
     $ocr = new TesseractOCR();
     echo "<div style='display:flex;flex-direction:horizontal'>";
+
     foreach( $images as $image ) {
-        $imageDat= $image->getContent();
-        echo '<img style="width:50%;height:50%" src="data:image/png;base64,'. base64_encode($imageDat) .'" />';
-        try{    
+        echo $image;
+        $imageDat = $image->getContent();
+        echo '<img style="width:50%;height:50%" src="data:image/png;base64,'. $imageDat .'" />';
+        
+        try {    
             $ocr->imageData($imageDat,strlen($imageDat));
             echo $ocr->run();       
-        }catch(Exception $e){
+        
+        } catch(Exception $e){
             echo "<p>Error:</p>";
             echo $e;
         }
     }
+    
     echo "</div>";
     $end_time = microtime(true);  
     $duration = secondsToTime($start_time - $end_time);
