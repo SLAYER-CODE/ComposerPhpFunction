@@ -95,6 +95,7 @@ class Font extends PDFObject
         $details['Encoding'] = ($this->has('Encoding') ? (string) $this->get('Encoding') : 'Ansi');
 
         $details += parent::getDetails($deep);
+
         return $details;
     }
 
@@ -125,6 +126,7 @@ class Font extends PDFObject
                 // See table 5.11 on PDF 1.5 specs for more info
             }
         }
+
         return $use_default ? self::MISSING : $fallbackDecoded;
     }
 
@@ -348,6 +350,7 @@ class Font extends PDFObject
                 $text .= $part;
             }
         }
+
         return $text;
     }
 
@@ -406,19 +409,12 @@ class Font extends PDFObject
      */
     public function decodeText(array $commands): string
     {
-        #Posicion del texto
         $word_position = 0;
-        #Posicion de las cadenas
         $words = [];
-        #La fuenta con la cual se obtiene el texto -50
         $font_space = $this->getFontSpaceLimit();
-        #Bucle para formatear la cadena anteriormente descomprimida para ser codificada
+
         foreach ($commands as $command) {
-            #Obtiene el tipo que se compila el caracter 
             switch ($command[PDFObject::TYPE]) {
-                #Si el caracter tiene un tipo inicial de n lo que hace es lo siguiente obtiene el valor flotante y ademas limpia la cadena
-                #Formatea la cadena para convertirlo en un float y comprobar que no sea mayor a getFontSpaceLimit
-                #GetFont space tiene un valor de -50   
                 case 'n':
                     if ((float) (trim($command[PDFObject::COMMAND])) < $font_space) {
                         $word_position = \count($words);
@@ -448,9 +444,8 @@ class Font extends PDFObject
                 $words[$word_position] = $text;
             }
         }
-        //Esto srive para realizar un foreach con un decodificador de texto
+
         foreach ($words as &$word) {
-            #Aca esta la solucion!!
             $word = $this->decodeContent($word);
         }
 
@@ -464,20 +459,18 @@ class Font extends PDFObject
      */
     public function decodeContent(string $text, ?bool &$unicode = null): string
     {
-        //Si encuentra que es un caracter sin decodificar entonces decodifica el contenido atravez de un caracter de maps decentede para sus fuentes
         if ($this->has('ToUnicode')) {
             return $this->decodeContentByToUnicodeCMapOrDescendantFonts($text);
         }
-        //Tambien el methodo has se eencuentra de definir todo el encabezamiento y encodign si se encuentra codificado
+
         if ($this->has('Encoding')) {
-            //Decodifica el encabezamiento
             $result = $this->decodeContentByEncoding($text);
-            //Verifica si el resultado es nullo retorna el contenido decodificado
+
             if (null !== $result) {
                 return $result;
             }
         }
-        //Y por ultimo decodifica si es autodetectado y o si no se torno ningun valor adicional;
+
         return $this->decodeContentByAutodetectIfNecessary($text);
     }
 
@@ -490,8 +483,7 @@ class Font extends PDFObject
      *
      * @todo Seems this is invalid algorithm that do not follow pdf-format specification. Must be rewritten.
      */
-
-     private function decodeContentByToUnicodeCMapOrDescendantFonts(string $text): string
+    private function decodeContentByToUnicodeCMapOrDescendantFonts(string $text): string
     {
         $bytes = $this->tableSizes['from'];
 
@@ -501,6 +493,7 @@ class Font extends PDFObject
 
             for ($i = 0; $i < $length; $i += $bytes) {
                 $char = substr($text, $i, $bytes);
+
                 if (false !== ($decoded = $this->translateChar($char, false))) {
                     $char = $decoded;
                 } elseif ($this->has('DescendantFonts')) {

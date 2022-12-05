@@ -61,7 +61,6 @@ class RawDataParser
     ];
 
     protected $filterHelper;
-    
     protected $objects;
 
     /**
@@ -74,7 +73,6 @@ class RawDataParser
 
         $this->filterHelper = new FilterHelper();
         $this->config = $config ?: new Config();
-    
     }
 
     /**
@@ -126,7 +124,7 @@ class RawDataParser
         // decode the stream
         $remaining_filters = [];
         foreach ($filters as $filter) {
-            if (\in_array($filter, $this->filterHelper->getAvailableFilters() )) {
+            if (\in_array($filter, $this->filterHelper->getAvailableFilters())) {
                 try {
                     $stream = $this->filterHelper->decodeFilter($filter, $stream, $this->config->getDecodeMemoryLimit());
                 } catch (Exception $e) {
@@ -144,7 +142,6 @@ class RawDataParser
         }
 
         return [$stream, $remaining_filters];
-    
     }
 
     /**
@@ -174,7 +171,7 @@ class RawDataParser
             $offset += \strlen($matches[0][0]);
             if ('n' == $matches[3][0]) {
                 // create unique object index: [object number]_[generation number]
-                $index = $obj_num . '_' . (int) ($matches[2][0]);
+                $index = $obj_num.'_'.(int) ($matches[2][0]);
                 // check if object already exist
                 if (!isset($xref['xref'][$index])) {
                     // store object offset position
@@ -199,19 +196,19 @@ class RawDataParser
                     $xref['trailer']['size'] = (int) ($matches[1]);
                 }
                 if (preg_match('/Root[\s]+([0-9]+)[\s]+([0-9]+)[\s]+R/i', $trailer_data, $matches) > 0) {
-                    $xref['trailer']['root'] = (int) ($matches[1]) . '_' . (int) ($matches[2]);
+                    $xref['trailer']['root'] = (int) ($matches[1]).'_'.(int) ($matches[2]);
                 }
                 if (preg_match('/Encrypt[\s]+([0-9]+)[\s]+([0-9]+)[\s]+R/i', $trailer_data, $matches) > 0) {
-                    $xref['trailer']['encrypt'] = (int) ($matches[1]) . '_' . (int) ($matches[2]);
+                    $xref['trailer']['encrypt'] = (int) ($matches[1]).'_'.(int) ($matches[2]);
                 }
                 if (preg_match('/Info[\s]+([0-9]+)[\s]+([0-9]+)[\s]+R/i', $trailer_data, $matches) > 0) {
-                    $xref['trailer']['info'] = (int) ($matches[1]) . '_' . (int) ($matches[2]);
+                    $xref['trailer']['info'] = (int) ($matches[1]).'_'.(int) ($matches[2]);
                 }
                 if (preg_match('/ID[\s]*[\[][\s]*[<]([^>]*)[>][\s]*[<]([^>]*)[>]/i', $trailer_data, $matches) > 0) {
                     $xref['trailer']['id'] = [];
                     $xref['trailer']['id'][0] = $matches[1];
                     $xref['trailer']['id'][1] = $matches[2];
-                    }
+                }
             }
             if (preg_match('/Prev[\s]+([0-9]+)/i', $trailer_data, $matches) > 0) {
                 // get previous xref
@@ -264,7 +261,8 @@ class RawDataParser
             if (
                 ('/' == $v[0])
                 && ('Type' == $v[1])
-                && (isset($sarr[($k + 1)])
+                && (
+                    isset($sarr[($k + 1)])
                     && '/' == $sarr[($k + 1)][0]
                     && 'XRef' == $sarr[($k + 1)][1]
                 )
@@ -290,7 +288,8 @@ class RawDataParser
                     if (
                         '/' == $vdc[0]
                         && 'Columns' == $vdc[1]
-                        && (isset($decpar[($kdc + 1)])
+                        && (
+                            isset($decpar[($kdc + 1)])
                             && 'numeric' == $decpar[($kdc + 1)][0]
                         )
                     ) {
@@ -298,7 +297,8 @@ class RawDataParser
                     } elseif (
                         '/' == $vdc[0]
                         && 'Predictor' == $vdc[1]
-                        && (isset($decpar[($kdc + 1)])
+                        && (
+                            isset($decpar[($kdc + 1)])
                             && 'numeric' == $decpar[($kdc + 1)][0]
                         )
                     ) {
@@ -396,7 +396,7 @@ class RawDataParser
                                 break;
 
                             default:  // PNG prediction (on encoding, PNG optimum)
-                                throw new Exception('Unknown PNG predictor: ' . $predictor);
+                                throw new Exception('Unknown PNG predictor: '.$predictor);
                         }
                     }
                     $prev_row = $ddata[$k];
@@ -444,27 +444,27 @@ class RawDataParser
             foreach ($sdata as $k => $row) {
                 switch ($row[0]) {
                     case 0:  // (f) linked list of free objects
-                        break;
+                            break;
 
                     case 1:  // (n) objects that are in use but are not compressed
-                        // create unique object index: [object number]_[generation number]
-                        $index = $obj_num . '_' . $row[2];
-                        // check if object already exist
-                        if (!isset($xref['xref'][$index])) {
-                            // store object offset position
-                            $xref['xref'][$index] = $row[1];
-                        }
-                        break;
+                            // create unique object index: [object number]_[generation number]
+                            $index = $obj_num.'_'.$row[2];
+                            // check if object already exist
+                            if (!isset($xref['xref'][$index])) {
+                                // store object offset position
+                                $xref['xref'][$index] = $row[1];
+                            }
+                            break;
 
                     case 2:  // compressed objects
-                        // $row[1] = object number of the object stream in which this object is stored
-                        // $row[2] = index of this object within the object stream
-                        $index = $row[1] . '_0_' . $row[2];
-                        $xref['xref'][$index] = -1;
-                        break;
+                            // $row[1] = object number of the object stream in which this object is stored
+                            // $row[2] = index of this object within the object stream
+                            $index = $row[1].'_0_'.$row[2];
+                            $xref['xref'][$index] = -1;
+                            break;
 
                     default:  // null objects
-                        break;
+                            break;
                 }
                 ++$obj_num;
                 if (isset($index_blocks)) {
@@ -495,7 +495,7 @@ class RawDataParser
     protected function getObjectHeaderPattern(array $objRefs): string
     {
         // consider all whitespace character (PDF specifications)
-        return '/' . $objRefs[0] . $this->config->getPdfWhitespacesRegex() . $objRefs[1] . $this->config->getPdfWhitespacesRegex() . 'obj' . '/';
+        return '/'.$objRefs[0].$this->config->getPdfWhitespacesRegex().$objRefs[1].$this->config->getPdfWhitespacesRegex().'obj'.'/';
     }
 
     protected function getObjectHeaderLen(array $objRefs): int
@@ -618,63 +618,63 @@ class RawDataParser
         // get object type
         switch ($char) {
             case '%':  // \x25 PERCENT SIGN
-                // skip comment and search for next token
-                $next = strcspn($pdfData, "\r\n", $offset);
-                if ($next > 0) {
-                    $offset += $next;
+                    // skip comment and search for next token
+                    $next = strcspn($pdfData, "\r\n", $offset);
+                    if ($next > 0) {
+                        $offset += $next;
 
-                    return $this->getRawObject($pdfData, $offset);
-                }
-                break;
+                        return $this->getRawObject($pdfData, $offset);
+                    }
+                    break;
 
             case '/':  // \x2F SOLIDUS
-                // name object
-                $objtype = $char;
-                ++$offset;
-                $pregResult = preg_match(
-                    '/^([^\x00\x09\x0a\x0c\x0d\x20\s\x28\x29\x3c\x3e\x5b\x5d\x7b\x7d\x2f\x25]+)/',
-                    substr($pdfData, $offset, 256),
-                    $matches
-                );
-                if (1 == $pregResult) {
-                    $objval = $matches[1]; // unescaped value
-                    $offset += \strlen($objval);
-                }
-                break;
+                    // name object
+                    $objtype = $char;
+                    ++$offset;
+                    $pregResult = preg_match(
+                        '/^([^\x00\x09\x0a\x0c\x0d\x20\s\x28\x29\x3c\x3e\x5b\x5d\x7b\x7d\x2f\x25]+)/',
+                        substr($pdfData, $offset, 256),
+                        $matches
+                    );
+                    if (1 == $pregResult) {
+                        $objval = $matches[1]; // unescaped value
+                        $offset += \strlen($objval);
+                    }
+                    break;
 
             case '(':   // \x28 LEFT PARENTHESIS
             case ')':  // \x29 RIGHT PARENTHESIS
-                // literal string object
-                $objtype = $char;
-                ++$offset;
-                $strpos = $offset;
-                if ('(' == $char) {
-                    $open_bracket = 1;
-                    while ($open_bracket > 0) {
-                        if (!isset($pdfData[$strpos])) {
-                            break;
-                        }
-                        $ch = $pdfData[$strpos];
-                        switch ($ch) {
-                            case '\\':  // REVERSE SOLIDUS (5Ch) (Backslash)
-                                // skip next character
-                                ++$strpos;
+                    // literal string object
+                    $objtype = $char;
+                    ++$offset;
+                    $strpos = $offset;
+                    if ('(' == $char) {
+                        $open_bracket = 1;
+                        while ($open_bracket > 0) {
+                            if (!isset($pdfData[$strpos])) {
                                 break;
+                            }
+                            $ch = $pdfData[$strpos];
+                            switch ($ch) {
+                                case '\\':  // REVERSE SOLIDUS (5Ch) (Backslash)
+                                        // skip next character
+                                        ++$strpos;
+                                        break;
 
-                            case '(':  // LEFT PARENHESIS (28h)
-                                ++$open_bracket;
-                                break;
+                                case '(':  // LEFT PARENHESIS (28h)
+                                        ++$open_bracket;
+                                        break;
 
-                            case ')':  // RIGHT PARENTHESIS (29h)
-                                --$open_bracket;
-                                break;
+                                case ')':  // RIGHT PARENTHESIS (29h)
+                                        --$open_bracket;
+                                        break;
+                            }
+                            ++$strpos;
                         }
-                        ++$strpos;
+                        $objval = substr($pdfData, $offset, ($strpos - $offset - 1));
+                        $offset = $strpos;
                     }
-                    $objval = substr($pdfData, $offset, ($strpos - $offset - 1));
-                    $offset = $strpos;
-                }
-                break;
+                    break;
 
             case '[':   // \x5B LEFT SQUARE BRACKET
             case ']':  // \x5D RIGHT SQUARE BRACKET
@@ -700,7 +700,7 @@ class RawDataParser
             case '>':  // \x3E GREATER-THAN SIGN
                 if (isset($pdfData[($offset + 1)]) && ($pdfData[($offset + 1)] == $char)) {
                     // dictionary object
-                    $objtype = $char . $char;
+                    $objtype = $char.$char;
                     $offset += 2;
                     if ('<' == $char) {
                         // get array content
@@ -779,11 +779,11 @@ class RawDataParser
                     // indirect object reference
                     $objtype = 'objref';
                     $offset += \strlen($matches[0]);
-                    $objval = (int) ($matches[1]) . '_' . (int) ($matches[2]);
+                    $objval = (int) ($matches[1]).'_'.(int) ($matches[2]);
                 } elseif (1 == preg_match('/^([0-9]+)[\s]+([0-9]+)[\s]+obj/iU', substr($pdfData, $offset, 33), $matches)) {
                     // object start
                     $objtype = 'obj';
-                    $objval = (int) ($matches[1]) . '_' . (int) ($matches[2]);
+                    $objval = (int) ($matches[1]).'_'.(int) ($matches[2]);
                     $offset += \strlen($matches[0]);
                 } elseif (($numlen = strspn($pdfData, '+-.0123456789', $offset)) > 0) {
                     // numeric object
@@ -822,8 +822,7 @@ class RawDataParser
             // find last startxref
             $pregResult = preg_match_all(
                 '/[\r\n]startxref[\s]*[\r\n]+([0-9]+)[\s]*[\r\n]+%%EOF/i',
-                $pdfData,
-                $matches,
+                $pdfData, $matches,
                 \PREG_SET_ORDER,
                 $offset
             );
@@ -860,6 +859,7 @@ class RawDataParser
         if (empty($xref)) {
             throw new Exception('Unable to find xref');
         }
+
         return $xref;
     }
 
@@ -883,7 +883,6 @@ class RawDataParser
             throw new Exception('Invalid PDF data: missing %PDF header.');
         }
 
-
         // get PDF content string
         $pdfData = substr($data, $trimpos);
 
@@ -898,7 +897,7 @@ class RawDataParser
                 $objects[$obj] = $this->getIndirectObject($pdfData, $xref, $obj, $offset, true);
             }
         }
-        #print_r($xref);
+
         return [$xref, $objects];
     }
 }

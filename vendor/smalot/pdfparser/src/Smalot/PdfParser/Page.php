@@ -176,9 +176,6 @@ class Page extends PDFObject
 
     public function getText(self $page = null): string
     {
-        #Obteniendo el texto de una pagina de un pdf
-        echo "<p>Debugger: Obteniendo el Texto </p>";
-        
         if ($contents = $this->get('Contents')) {
             if ($contents instanceof ElementMissing) {
                 return '';
@@ -186,8 +183,6 @@ class Page extends PDFObject
                 return '';
             } elseif ($contents instanceof PDFObject) {
                 $elements = $contents->getHeader()->getElements();
-
-                #Obtiene los elementos del header en ellos tambien estan los objetos
 
                 if (is_numeric(key($elements))) {
                     $new_content = '';
@@ -202,9 +197,7 @@ class Page extends PDFObject
 
                     $header = new Header([], $this->document);
                     $contents = new PDFObject($this->document, $header, $new_content, $this->config);
-                    
                 }
-                
             } elseif ($contents instanceof ElementArray) {
                 // Create a virtual global content.
                 $new_content = '';
@@ -222,9 +215,9 @@ class Page extends PDFObject
              * To combat this we keep a recursionStack containing already parsed elements on the page.
              * The stack is only emptied here after getting text from a page.
              */
-            #Aca esta el problema!!!
             $contentsText = $contents->getText($this);
             PDFObject::$recursionStack = [];
+
             return $contentsText;
         }
 
@@ -369,7 +362,7 @@ class Page extends PDFObject
 
                 return $contents->getTextArray($this);
             }
-            
+
             return [];
         }
     }

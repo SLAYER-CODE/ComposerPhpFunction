@@ -132,7 +132,6 @@ class Header
      */
     public function get(string $name)
     {
-        //Comprueba que el elemento si exista en una matris
         if (\array_key_exists($name, $this->elements) && $element = $this->resolveXRef($name)) {
             return $element;
         }
@@ -150,17 +149,17 @@ class Header
     protected function resolveXRef(string $name)
     {
         if (($obj = $this->elements[$name]) instanceof ElementXRef && null !== $this->document) {
-            
             /** @var ElementXRef $obj */
-            
             $object = $this->document->getObjectById($obj->getId());
 
             if (null === $object) {
                 return new ElementMissing();
             }
+
             // Update elements list for future calls.
             $this->elements[$name] = $object;
         }
+
         return $this->elements[$name];
     }
 

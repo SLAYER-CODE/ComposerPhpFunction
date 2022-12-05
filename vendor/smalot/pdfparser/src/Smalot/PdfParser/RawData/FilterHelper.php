@@ -86,8 +86,7 @@ class FilterHelper
                 throw new Exception('Decode Crypt not implemented yet.');
             default:
                 return $data;
-        
-            }
+        }
     }
 
     /**

@@ -62,7 +62,6 @@ class Parser
     {
         $this->config = $config ?: new Config();
         $this->rawDataParser = new RawDataParser($cfg, $this->config);
-    
     }
 
     public function getConfig(): Config
@@ -99,7 +98,7 @@ class Parser
     {
         // Create structure from raw data.
         list($xref, $data) = $this->rawDataParser->parseData($content);
-        
+
         if (isset($xref['trailer']['encrypt'])) {
             throw new \Exception('Secured pdf file are currently not supported.');
         }
@@ -119,6 +118,7 @@ class Parser
 
         $document->setTrailer($this->parseTrailer($xref['trailer'], $document));
         $document->setObjects($this->objects);
+
         return $document;
     }
 
@@ -179,6 +179,7 @@ class Parser
                         // Split xrefs and contents.
                         preg_match('/^((\d+\s+\d+\s*)*)(.*)$/s', $content, $match);
                         $content = $match[3];
+
                         // Extract xrefs.
                         $xrefs = preg_split(
                             '/(\d+\s+\d+\s*)/s',
@@ -215,6 +216,7 @@ class Parser
                     break;
 
                 default:
+                    if ('null' != $part) {
                         $element = $this->parseHeaderElement($part[0], $part[1], $document);
 
                         if ($element) {
@@ -223,6 +225,7 @@ class Parser
                     }
                     break;
             }
+        }
 
         if (!isset($this->objects[$id])) {
             $this->objects[$id] = PDFObject::factory($document, $header, $content, $this->config);
@@ -234,7 +237,6 @@ class Parser
      */
     protected function parseHeader(array $structure, ?Document $document): Header
     {
-        //STRUCTURE = VALUE DEL DATO PARSEADO ENTRE OBJETOS 
         $elements = [];
         $count = \count($structure);
 
@@ -244,7 +246,6 @@ class Parser
             $value = $structure[$position + 1][1];
 
             $elements[$name] = $this->parseHeaderElement($type, $value, $document);
-        
         }
 
         return new Header($elements, $document);
@@ -290,7 +291,6 @@ class Parser
                 return ElementName::parse('/'.$value, $document);
 
             case 'ojbref': // old mistake in tcpdf parser
-               
             case 'objref':
                 return new ElementXRef($value, $document);
 

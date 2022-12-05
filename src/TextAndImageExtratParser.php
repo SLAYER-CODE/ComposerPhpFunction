@@ -29,13 +29,15 @@
     $parseador = new \Smalot\PdfParser\Parser();
     $doc = $parseador->parseFile($PathDirAbsolute . $documento);
     
-    $images = $doc->getObjectsByType("XObject",'Image');    
-    
+    $images = $doc->getObjectsByType("XObject",'Image');
+
+
+
     $ocr = new TesseractOCR();
     echo "<div style='display:flex;flex-direction:horizontal'>";
 
     foreach( $images as $image ) {
-        echo $image;
+        
         $imageDat = $image->getContent();
         echo '<img style="width:50%;height:50%" src="data:image/png;base64,'. $imageDat .'" />';
         
