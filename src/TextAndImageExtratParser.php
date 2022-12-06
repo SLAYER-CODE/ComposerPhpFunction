@@ -24,33 +24,26 @@
         return "TIME: <strong>" . $hours.' : '.$minutes.' : '.$seconds.' :</strong>';
     }
     $start_time = microtime(true);
-    $documento="Resolucion.pdf";
+    $documento="odajup.pdf";
     $PathDirAbsolute = "C:\\xampp7.2\\htdocs\\composerProject\\ArchivosPrueva\\"; #windows
     $parseador = new \Smalot\PdfParser\Parser();
     $doc = $parseador->parseFile($PathDirAbsolute . $documento);
-    
+    echo $doc->getText();
     $images = $doc->getObjectsByType("XObject",'Image');
-
-
-
     $ocr = new TesseractOCR();
     echo "<div style='display:flex;flex-direction:horizontal'>";
-
-    foreach( $images as $image ) {
-        
+    foreach( $images as $image ) {        
         $imageDat = $image->getContent();
-        echo '<img style="width:50%;height:50%" src="data:image/png;base64,'. $imageDat .'" />';
-        
+        echo '<img style="width:300px;height: 300px;" src="data:image/jpg;base64,'. base64_encode($image->getContent()) .'" />';        
         try {    
+            $ocr->lang('spa');  
             $ocr->imageData($imageDat,strlen($imageDat));
-            echo $ocr->run();       
-        
+            echo $ocr->run();              
         } catch(Exception $e){
             echo "<p>Error:</p>";
             echo $e;
         }
     }
-    
     echo "</div>";
     $end_time = microtime(true);  
     $duration = secondsToTime($start_time - $end_time);
